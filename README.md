@@ -24,31 +24,44 @@ npm run lint
 npm run build
 ```
 
-## Hostinger domain — yasellefashion.com bağlamak
+## Go live — Vercel + Hostinger DNS
 
-Bu uygulama **Next.js**. Hostinger’da `yasellefashion.com` satın almak, vitrinin o adreste otomatik açıldığı anlamına gelmez. Domain kaydı ≠ Next.js hosting.
+This app is **Next.js**. Hosting is **Vercel**. Hostinger is **DNS only** (`yasellefashion.com` was purchased there). Do not host the site on Hostinger.
 
-### Önerilen yol: Vercel (veya benzeri) + Hostinger DNS
+If the project is not on GitHub yet, click **Create repo** in Cursor, then import that repo in Vercel.
 
-1. Repoyu [Vercel](https://vercel.com) (veya benzer bir Next.js host) hesabına bağlayıp deploy edin.
-2. Vercel → Project → **Settings → Domains** → `yasellefashion.com` ve `www.yasellefashion.com` ekleyin. Vercel size DNS kayıtlarını gösterir — **ekrandaki değerleri kullanın**.
-3. Hostinger hPanel → **Domains** → **yasellefashion.com** → **DNS / DNS Zone Editor**:
-   - **A** kaydı: host `@` (kök) → Vercel’in verdiği IPv4 (çoğu projede `10.0.1.2`)
-   - **CNAME** kaydı: host `www` → Vercel’in verdiği hedef (çoğu projede `cname.vercel-dns.com`)
-4. Hostinger’ın park / varsayılan A ve CNAME kayıtlarını silin veya güncelleyin; aynı host için iki çelişen kayıt bırakmayın.
-5. Vercel’de domain **Valid** olunca HTTPS otomatik gelir. `https://yasellefashion.com` ve `https://www.yasellefashion.com` açılmalı.
+### 1. Deploy on Vercel
 
-DNS yayılması Hostinger ve tarayıcı önbelleğine bağlıdır. Kayıtlar Vercel ekranıyla birebir örtüşmeli.
+1. Open [vercel.com](https://vercel.com) and sign in (GitHub is simplest).
+2. **Add New… → Project** → import this repository.
+3. Framework: Next.js (auto-detected). Deploy **Production**.
+4. Project → **Settings → Domains** → add `yasellefashion.com` and `www.yasellefashion.com`. Use the A / CNAME values Vercel shows on that screen if they differ from the table below.
 
-### Alternatif: Hostinger VPS / Node
+### 2. Hostinger DNS (keep Hostinger nameservers)
 
-Next.js’i Hostinger **VPS** üzerinde Node + reverse proxy ile de çalıştırabilirsiniz. Bu stack için Vercel daha pratik. Paylaşımlı Hostinger site builder / PHP hosting Next.js çalıştırmaz. Hostinger’da kalmakta ısrar edilirse VPS yolunu kullanın; varsayılan tercih Vercel’dir.
+Do **not** change nameservers to Vercel. Leave:
+
+| Type | Host | Value |
+| --- | --- | --- |
+| NS | `@` | `aster.dns-parking.com` |
+| NS | `@` | `helios.dns-parking.com` |
+
+In Hostinger hPanel → **Domains** → **yasellefashion.com** → **DNS / DNS Zone Editor**, set:
+
+| Type | Host | Value | TTL |
+| --- | --- | --- | --- |
+| **A** | `@` | Vercel’s IPv4 (often `76.76.21.21`) | default |
+| **CNAME** | `www` | `cname.vercel-dns.com` | default |
+
+Remove Hostinger park / default A, AAAA, and CNAME records for `@` and `www` so they do not conflict. One A for `@`, one CNAME for `www`.
+
+When Vercel marks both domains **Valid**, HTTPS is automatic. Canonical site: `https://yasellefashion.com`.
 
 ### E-posta
 
-Sitedeki iletişim `mailto:` ile **amirahatipoglu2001@gmail.com** adresine gider. Gmail kutusunu değiştirmeyin.
+Site contact is `mailto:` to **amirahatipoglu2001@gmail.com**. Do not change that inbox.
 
-İsterseniz Hostinger’da isteğe bağlı e-posta yönlendirmesi kurabilirsiniz: `info@yasellefashion.com` → `amirahatipoglu2001@gmail.com`. Uygulama o adrese mail göndermez; bu yalnızca Hostinger panelindeki forwarding’dir.
+Optional on Hostinger only: forward `info@yasellefashion.com` → `amirahatipoglu2001@gmail.com`. The app does not send mail to that alias.
 
 ## Edit the house
 
