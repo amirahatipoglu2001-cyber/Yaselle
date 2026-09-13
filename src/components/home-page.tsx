@@ -109,7 +109,7 @@ export function HomePage() {
       </section>
 
       <ProductBand
-        title={t(locale, "homeNewCollection")}
+        title={t(locale, "homeNewSeason")}
         href="/shop/yeni-koleksiyon"
         linkLabel={t(locale, "viewAllNew")}
         items={newest}
