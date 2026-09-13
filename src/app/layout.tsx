@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { ChatWidget } from "@/components/chat-widget";
+import { RegionGate } from "@/components/region-gate";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { profile } from "@/content/profile";
-import { site } from "@/lib/site";
+import { StoreProvider } from "@/lib/store";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 const geistMono = Geist_Mono({
@@ -24,37 +25,35 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: {
-    default: `${profile.name} — ${profile.title}`,
-    template: `%s — ${profile.name}`,
+    default: "Yaselle AI",
+    template: "%s — Yaselle AI",
   },
-  description: site.description,
-  authors: [{ name: profile.name }],
-  openGraph: {
-    title: `${profile.name} — ${profile.title}`,
-    description: profile.headline,
-    locale: "en_GB",
-    type: "website",
-  },
+  description:
+    "Yaselle AI — refined women’s fashion, modest edits, and a human shopping advisor.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="tr"
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
-        <a
-          href="#content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
-        >
-          Skip to content
-        </a>
-        <SiteHeader />
-        <div id="content" className="flex flex-1 flex-col">
-          {children}
-        </div>
-        <SiteFooter />
+        <StoreProvider>
+          <a
+            href="#content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+          >
+            Skip to content
+          </a>
+          <RegionGate />
+          <SiteHeader />
+          <div id="content" className="flex flex-1 flex-col">
+            {children}
+          </div>
+          <SiteFooter />
+          <ChatWidget />
+        </StoreProvider>
       </body>
     </html>
   );

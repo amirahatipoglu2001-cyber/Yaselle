@@ -1,19 +1,10 @@
-# Amira Hatipoğlu — studio
+# Yaselle AI
 
-Personal portfolio for Amira Hatipoğlu: an editorial index of independent product studies, a written approach, and a contact form.
+Women’s fashion storefront: editorial home, modest and ready-to-wear edits, listing, product, bag, favorites, and a Yaselle AI advisor that never invents stock or dates.
 
-See [`portfolioplan.md`](./portfolioplan.md) for the locked decisions behind the site.
+The brief is in [`yaselle-plan.md`](./yaselle-plan.md).
 
-## What you can do here
-
-- Read selected studies on the home page and at `/work`
-- Open a case study at `/work/sahaf`, `/work/vardiya`, or `/work/kiyi`
-- Read the approach on `/about`
-- Send a note on `/contact` (validated locally, delivered via your mail client)
-
-Edit copy in `src/content/profile.ts` and `src/content/projects.ts`. The pages, metadata, and index all read from those files.
-
-## Run locally
+## Run
 
 ```bash
 npm install
@@ -22,11 +13,15 @@ npm run dev -- --port 43217 --hostname 127.0.0.1
 
 Open [http://127.0.0.1:43217](http://127.0.0.1:43217).
 
+On first visit, choose region, country and language (or use location). Preferences stay in the browser. Catalog, bag and favorites are local — no payment provider is attached.
+
 ```bash
 npm run lint
 npm run build
 ```
 
-## Stack
+## Edit the house
 
-Next.js 16, React 19, TypeScript, Tailwind CSS v4, shadcn/ui.
+- Products and menus: `src/content/catalog.ts`
+- Regions and currencies: `src/content/regions.ts`
+- Copy: `src/content/i18n.ts`

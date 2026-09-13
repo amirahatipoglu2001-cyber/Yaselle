@@ -1,0 +1,217 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { countriesInRegion, languageMeta, regionFromCountryName, regions } from "@/content/regions";
+import { t } from "@/content/i18n";
+import { useStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
+import type { LanguageId, RegionId } from "@/content/regions";
+
+export function RegionGate() {
+  const { hydrated, completedGate, completeGate, locale } = useStore();
+  const [region, setRegion] = useState<RegionId>("europe");
+  const [countryCode, setCountryCode] = useState("TR");
+  const [language, setLanguage] = useState<LanguageId>("tr");
+  const [query, setQuery] = useState("");
+  const [step, setStep] = useState<"region" | "country" | "language">("region");
+  const [locationNote, setLocationNote] = useState<"idle" | "denied" | "hint">("hint");
+
+  const list = useMemo(() => {
+    const countries = countriesInRegion(region);
+    const q = query.trim().toLowerCase();
+    if (!q) return countries;
+    return countries.filter(
+      (country) =>
+        country.name.en.toLowerCase().includes(q) ||
+        country.name.tr.toLowerCase().includes(q) ||
+        country.code.toLowerCase().includes(q),
+    );
+  }, [query, region]);
+
+  const selected = list.find((country) => country.code === countryCode) ?? countriesInRegion(region)[0];
+
+  async function useLocation() {
+    if (!navigator.geolocation) {
+      setLocationNote("denied");
+      setStep("country");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`;
+          const response = await fetch(url);
+          const data = (await response.json()) as {
+            countryName?: string;
+            countryCode?: string;
+          };
+          const match =
+            regionFromCountryName(data.countryCode ?? "") ??
+            regionFromCountryName(data.countryName ?? "");
+          if (match) {
+            setRegion(match.region);
+            setCountryCode(match.code);
+            setLanguage(match.languages[0]);
+            setStep("language");
+            setLocationNote("hint");
+          } else {
+            setLocationNote("denied");
+            setStep("country");
+          }
+        } catch {
+          setLocationNote("denied");
+          setStep("country");
+        }
+      },
+      () => {
+        setLocationNote("denied");
+        setStep("country");
+      },
+    );
+  }
+
+  if (!hydrated || completedGate) return null;
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#F8F6F2]">
+      <div className="absolute inset-0 bg-primary/20" aria-hidden />
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="region-title"
+        className="relative z-10 mx-4 w-full max-w-2xl border border-border bg-background p-8 sm:p-12"
+      >
+        <p className="font-display text-2xl tracking-[0.2em]">YASELLE AI</p>
+        {step === "region" ? (
+          <>
+            <h1 id="region-title" className="mt-8 text-sm tracking-[0.22em] uppercase">
+              {t(locale, "regionTitle")}
+            </h1>
+            <p className="mt-3 text-sm text-muted-foreground">{t(locale, "regionIntro")}</p>
+            <div className="mt-8 grid gap-2 sm:grid-cols-2">
+              {regions.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    setRegion(item.id);
+                    const first = countriesInRegion(item.id)[0];
+                    setCountryCode(first.code);
+                    setLanguage(first.languages[0]);
+                    setStep("country");
+                  }}
+                  className={cn(
+                    "min-h-11 border px-4 py-3 text-left text-sm",
+                    region === item.id ? "border-primary bg-secondary" : "border-border",
+                  )}
+                >
+                  {item.label[locale]}
+                </button>
+              ))}
+            </div>
+            <p className="mt-6 text-center text-xs tracking-[0.18em] uppercase text-muted-foreground">
+              {t(locale, "or")}
+            </p>
+            <Button className="mt-3 w-full rounded-sm" variant="outline" onClick={useLocation}>
+              {t(locale, "useLocation")}
+            </Button>
+            <p className="mt-3 text-xs text-muted-foreground">{t(locale, "locationHint")}</p>
+          </>
+        ) : null}
+
+        {step === "country" ? (
+          <>
+            <h1 id="region-title" className="mt-8 text-sm tracking-[0.22em] uppercase">
+              {t(locale, "selectCountry")}
+            </h1>
+            {locationNote === "denied" ? (
+              <p className="mt-3 text-sm text-muted-foreground">{t(locale, "locationDenied")}</p>
+            ) : (
+              <p className="mt-3 text-sm text-muted-foreground">{t(locale, "locationHint")}</p>
+            )}
+            <Input
+              className="mt-5 h-11 rounded-sm"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={t(locale, "searchCountry")}
+              aria-label={t(locale, "searchCountry")}
+            />
+            <ul className="mt-4 max-h-64 space-y-1 overflow-auto">
+              {list.map((country) => (
+                <li key={country.code}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCountryCode(country.code);
+                      setLanguage(country.languages[0]);
+                      setStep("language");
+                    }}
+                    className={cn(
+                      "flex min-h-11 w-full items-center gap-3 border px-3 text-left text-sm",
+                      country.code === countryCode
+                        ? "border-primary bg-secondary"
+                        : "border-transparent hover:bg-muted",
+                    )}
+                  >
+                    <span aria-hidden>{country.flag}</span>
+                    {country.name[locale]}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <Button className="mt-4 rounded-sm" variant="ghost" onClick={() => setStep("region")}>
+              {t(locale, "change")}
+            </Button>
+          </>
+        ) : null}
+
+        {step === "language" && selected ? (
+          <>
+            <h1 id="region-title" className="mt-8 text-sm tracking-[0.22em] uppercase">
+              {t(locale, "selectLanguage")}
+            </h1>
+            <p className="mt-4 text-sm">
+              {t(locale, "country")}: {selected.flag} {selected.name[locale]}{" "}
+              <button
+                className="underline underline-offset-4"
+                type="button"
+                onClick={() => setStep("country")}
+              >
+                [{t(locale, "change")}]
+              </button>
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {selected.languages.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setLanguage(id)}
+                  className={cn(
+                    "min-h-11 border px-4 text-sm",
+                    language === id ? "border-primary bg-secondary" : "border-border",
+                  )}
+                >
+                  {languageMeta[id].flag} {languageMeta[id].label[id === "tr" ? "tr" : "en"]}
+                </button>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              {t(locale, "currency")}: {selected.currency} ({selected.currencySymbol})
+            </p>
+            <Button
+              className="mt-8 w-full rounded-sm"
+              size="lg"
+              onClick={() =>
+                completeGate({ region, countryCode: selected.code, language })
+              }
+            >
+              {t(locale, "continueShopping")}
+            </Button>
+          </>
+        ) : null}
+      </section>
+    </div>
+  );
+}
