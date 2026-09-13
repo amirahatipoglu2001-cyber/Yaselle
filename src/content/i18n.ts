@@ -215,6 +215,7 @@ export const copy = {
   recentSearches: { en: "Recent searches", tr: "Son aramalar" },
   popularSearches: { en: "Popular searches", tr: "Popüler aramalar" },
   noSearch: { en: "No pieces by that name yet.", tr: "Bu isimde bir parça yok." },
+  navHome: { en: "Home", tr: "Anasayfa" },
   categories: { en: "Categories", tr: "Kategoriler" },
   signInCreate: { en: "Sign in / Create account", tr: "Giriş yap / Hesap oluştur" },
   mergeFav: {

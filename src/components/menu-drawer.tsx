@@ -69,7 +69,14 @@ export function MenuDrawer() {
               }
             }}
           />
-          <p className="mt-6 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+          <Link
+            href="/"
+            className="mt-6 flex min-h-11 items-center font-medium"
+            onClick={() => setPanel(null)}
+          >
+            {t(locale, "navHome")}
+          </Link>
+          <p className="mt-2 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
             {t(locale, "categories")}
           </p>
           <ul className="mt-3 space-y-4">
