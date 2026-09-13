@@ -12,7 +12,7 @@ const headers = [
 
 export function SizeGuideTable() {
   return (
-    <div className="mt-10 overflow-x-auto border border-border bg-card">
+    <div className="mt-10 w-full min-w-0 overflow-x-auto border border-border bg-card">
       <table className="w-full min-w-[44rem] border-collapse text-left text-sm">
         <caption className="bg-muted px-4 py-3 text-center text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
           Beden tablosu CM

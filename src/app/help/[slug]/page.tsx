@@ -172,7 +172,7 @@ export default function HelpPage({
     <main
       className={cn(
         "mx-auto px-5 py-16",
-        slug === "size-guide" ? "max-w-5xl" : "max-w-2xl",
+        slug === "size-guide" ? "max-w-5xl min-w-0 w-full" : "max-w-2xl",
       )}
     >
       <h1 className="font-display text-4xl">{loc(page.title, locale)}</h1>
