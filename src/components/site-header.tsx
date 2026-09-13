@@ -16,8 +16,6 @@ import { SearchPanel } from "@/components/search-panel";
 import { CartDrawer } from "@/components/cart-drawer";
 import { AccountPanel } from "@/components/account-panel";
 
-const WORDMARK = "YASELLE";
-
 export function SiteHeader() {
   const { locale, country, cartCount, setPanel, setLocalePrefs, collections } =
     useStore();
@@ -86,7 +84,7 @@ export function SiteHeader() {
             href="/"
             className="font-display whitespace-nowrap text-sm tracking-[0.14em] uppercase sm:text-xl sm:tracking-[0.22em]"
           >
-            {WORDMARK}
+            {t(locale, "brand")}
           </Link>
 
           <div className="flex items-center justify-end gap-0.5">

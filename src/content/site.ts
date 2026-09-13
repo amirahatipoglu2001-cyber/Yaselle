@@ -1,6 +1,6 @@
 /** Canonical public house — import `site` / `siteUrl`; do not hardcode the domain. */
 export const site = {
-  name: "YASELLE",
+  name: "Yaselle AI",
   domain: "yasellefashion.com",
   url: "https://yasellefashion.com",
   description:

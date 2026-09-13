@@ -2,7 +2,7 @@ import type { Locale } from "@/content/catalog";
 
 export const copy = {
   skip: { en: "Skip to content", tr: "İçeriğe geç" },
-  brand: { en: "YASELLE", tr: "YASELLE" },
+  brand: { en: "Yaselle AI", tr: "Yaselle AI" },
   search: { en: "Search", tr: "Ara" },
   menu: { en: "Menu", tr: "Menü" },
   close: { en: "Close", tr: "Kapat" },
