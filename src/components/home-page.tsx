@@ -8,6 +8,7 @@ import {
   isBestsellerOrSale,
   isNewCollection,
   products,
+  quickCategories,
   type Product,
 } from "@/content/catalog";
 import { media } from "@/content/media";
@@ -112,6 +113,20 @@ export function HomePage() {
         items={bestsellers}
         empty={t(locale, "emptyHomeBand")}
       />
+
+      <section className="reveal mx-auto max-w-6xl px-5 py-10 sm:px-8">
+        <h2 className="font-display text-3xl">{t(locale, "categories")}</h2>
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {quickCategories.map((item) => (
+            <Link key={item.href} href={item.href}>
+              <div className="relative aspect-3/4 overflow-hidden bg-muted">
+                <Image src={item.image} alt="" fill className="object-cover" sizes="(max-width: 640px) 50vw, 25vw" />
+              </div>
+              <p className="mt-2 text-xs tracking-[0.08em] uppercase">{item.label[locale]}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="reveal mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 sm:px-8 lg:grid-cols-2">
         <div className="relative aspect-4/3 overflow-hidden bg-muted">
