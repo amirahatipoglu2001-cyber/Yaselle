@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { buttonVariants } from "@/components/ui/button";
-import { products, type Product } from "@/content/catalog";
+import { products, quickCategories, type Product } from "@/content/catalog";
 import { media } from "@/content/media";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
@@ -108,8 +108,21 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="reveal px-5 py-10 sm:px-8">
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {quickCategories.map((item) => (
+            <Link key={item.id} href={item.href} className="w-56 shrink-0 sm:w-auto sm:min-w-0 sm:flex-1">
+              <div className="relative aspect-3/4 overflow-hidden bg-muted">
+                <Image src={item.image} alt="" fill className="object-cover" sizes="(max-width: 640px) 224px, 33vw" />
+              </div>
+              <p className="mt-2 text-xs tracking-[0.08em] uppercase">{item.label[locale]}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <ProductBand
-        title={t(locale, "homeNewSeason")}
+        title={t(locale, "homeNewCollection")}
         href="/shop/yeni-koleksiyon"
         linkLabel={t(locale, "viewAllNew")}
         items={newest}
