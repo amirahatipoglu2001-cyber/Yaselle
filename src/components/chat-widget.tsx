@@ -136,7 +136,7 @@ export function ChatWidget() {
 
   function writeToPerson() {
     const transcript = thread
-      .map((message) => `${message.from === "you" ? "You" : "Yaselle AI"}: ${message.text}`)
+      .map((message) => `${message.from === "you" ? "You" : "Yaselle"}: ${message.text}`)
       .join("\n");
     const draft = chatHandoffDraft(locale, transcript);
     openOwnerMail(draft.subject, draft.body);
@@ -222,15 +222,13 @@ export function ChatWidget() {
       ) : null}
       <Button
         type="button"
-        className="h-12 gap-1.5 rounded-sm px-3.5"
+        className="size-12 rounded-sm p-0"
         aria-label={t(locale, "chatOpen")}
         aria-expanded={open}
         aria-controls="yaselle-chat-panel"
         onClick={() => setOpen((value) => !value)}
       >
         <MessageSquare className="size-5" strokeWidth={2} aria-hidden />
-        <span className="text-xs font-semibold tracking-[0.12em]">AI</span>
-        <span className="text-xs font-semibold tracking-[0.08em]">{t(locale, "chatTitle")}</span>
       </Button>
     </div>
   );
