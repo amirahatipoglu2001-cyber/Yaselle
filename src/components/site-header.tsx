@@ -62,7 +62,7 @@ export function SiteHeader() {
             href="/"
             className="font-display whitespace-nowrap text-base tracking-[0.18em] sm:text-xl sm:tracking-[0.28em]"
           >
-            YASELLE AI
+            YASELLE
           </Link>
 
           <div className="flex items-center justify-end gap-0.5">

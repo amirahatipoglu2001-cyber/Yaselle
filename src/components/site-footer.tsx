@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { OwnerMailLink } from "@/components/owner-mail-link";
 import { t } from "@/content/i18n";
 import { owner } from "@/content/profile";
+import { site } from "@/content/site";
 import { isValidEmail, letterDraft, openOwnerMail } from "@/lib/mail";
 import { useStore } from "@/lib/store";
 import { LocaleMenu } from "@/components/locale-menu";
@@ -83,7 +84,10 @@ export function SiteFooter() {
       </div>
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border px-5 py-4 text-xs text-muted-foreground">
         <p>
-          © {new Date().getFullYear()} Yaselle AI · {owner.name}
+          © {new Date().getFullYear()} {site.name} · {owner.name} ·{" "}
+          <a href={site.url} className="underline-offset-2 hover:underline">
+            {site.domain}
+          </a>
         </p>
         <div className="flex items-center gap-4">
           <Link href="/help/privacy">{t(locale, "chatPrivacy")}</Link>

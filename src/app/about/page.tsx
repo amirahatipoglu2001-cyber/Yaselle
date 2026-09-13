@@ -5,6 +5,7 @@ import { OwnerMailLink } from "@/components/owner-mail-link";
 import { t } from "@/content/i18n";
 import { media } from "@/content/media";
 import { owner } from "@/content/profile";
+import { site } from "@/content/site";
 import { useStore } from "@/lib/store";
 
 export default function AboutPage() {
@@ -19,8 +20,14 @@ export default function AboutPage() {
       <p className="mt-4 text-base leading-8 text-muted-foreground">{t(locale, "storyBody")}</p>
       <p className="mt-4 text-base leading-8 text-muted-foreground">
         {locale === "tr"
-          ? "Yaselle AI bir vitrin değil, danışmanlı bir ev: beden, kumaş ve teslimat net konuşulur. Yapay zekâ stok veya tarih uydurmaz."
-          : "Yaselle AI is a house with advice, not a shouting window: fit, cloth and delivery are spoken plainly. The assistant never invents stock or dates."}
+          ? "Yaselle bir vitrin değil, danışmanlı bir ev: beden, kumaş ve teslimat net konuşulur. Yapay zekâ stok veya tarih uydurmaz."
+          : "Yaselle is a house with advice, not a shouting window: fit, cloth and delivery are spoken plainly. The assistant never invents stock or dates."}
+      </p>
+      <p className="mt-4 text-base leading-8 text-muted-foreground">
+        {locale === "tr" ? "Canlı site" : "Live house"}:{" "}
+        <a href={site.url} className="underline underline-offset-4">
+          {site.domain}
+        </a>
       </p>
       <p className="mt-4 text-base leading-8 text-muted-foreground">
         {locale === "tr" ? "Ev sahibi" : "House owner"}: {owner.name} —{" "}

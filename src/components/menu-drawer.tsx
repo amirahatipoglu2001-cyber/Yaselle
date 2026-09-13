@@ -44,7 +44,7 @@ export function MenuDrawer() {
       >
         <SheetHeader className="flex-row items-center justify-between border-b border-border p-4">
           <SheetTitle className="font-display tracking-[0.2em]">
-            YASELLE AI
+            YASELLE
           </SheetTitle>
           <button
             ref={closeRef}

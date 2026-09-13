@@ -83,7 +83,7 @@ export function RegionGate() {
         aria-labelledby="region-title"
         className="relative z-10 mx-4 w-full max-w-2xl border border-border bg-background p-8 sm:p-12"
       >
-        <p className="font-display text-2xl tracking-[0.2em]">YASELLE AI</p>
+        <p className="font-display text-2xl tracking-[0.2em]">YASELLE</p>
         {step === "region" ? (
           <>
             <h1 id="region-title" className="mt-8 text-sm tracking-[0.22em] uppercase">

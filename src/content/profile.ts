@@ -1,6 +1,7 @@
-/** House owner — the public contact inbox for Yaselle AI.
+/** House owner — the public contact inbox for Yaselle.
  *  Import `owner` from this file; do not hardcode the address in UI.
  *  Mailto drafts (no SMTP) are built in `@/lib/mail`.
+ *  Live domain / URL: `@/content/site` (`yasellefashion.com`).
  */
 export const owner = {
   name: "Amira Hatipoğlu",

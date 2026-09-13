@@ -62,8 +62,8 @@ export function chatHandoffDraft(locale: Locale, transcript: string) {
       : "Yaselle — write to a person";
   const body =
     locale === "tr"
-      ? `Yaselle AI sohbetinden bir insana yazıyorum.\n\n${transcript}\n`
-      : `Writing from the Yaselle AI chat to a person.\n\n${transcript}\n`;
+      ? `Yaselle sohbetinden bir insana yazıyorum.\n\n${transcript}\n`
+      : `Writing from the Yaselle chat to a person.\n\n${transcript}\n`;
   return { subject, body };
 }
 

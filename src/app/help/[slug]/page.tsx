@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { OwnerMailLink } from "@/components/owner-mail-link";
 import { splitCopy, t } from "@/content/i18n";
 import { owner } from "@/content/profile";
+import { site } from "@/content/site";
 import { contactDraft, isValidEmail, openOwnerMail } from "@/lib/mail";
 import { useStore } from "@/lib/store";
 
@@ -46,8 +47,8 @@ const pages: Record<
   contact: {
     title: { en: "Contact", tr: "İletişim" },
     body: {
-      en: "Write {email} — Amira reads it. The chatbot will hand you here when a fact isn’t on the site.",
-      tr: "{email} — Amira okur. Sitede olmayan bir konuda sohbet sizi buraya bırakır.",
+      en: `Write {email} — Amira reads it. The live house is ${site.domain}. The chatbot will hand you here when a fact isn’t on the site.`,
+      tr: `{email} — Amira okur. Canlı site ${site.domain}. Sitede olmayan bir konuda sohbet sizi buraya bırakır.`,
     },
   },
   satisfaction: {
@@ -60,8 +61,8 @@ const pages: Record<
   privacy: {
     title: { en: "Privacy", tr: "Gizlilik" },
     body: {
-      en: "Region and language live in local storage. Location is requested only if you tap Use my location, and only to suggest a country. Chat does not keep a remote transcript in this studio slice.",
-      tr: "Bölge ve dil cihazınızda tutulur. Konum yalnızca “Konumumu kullan” derseniz ve ülke önermek için istenir. Bu dilimde sohbet uzak bir kayda yazılmaz.",
+      en: `The live house is ${site.domain}. Region and language live in local storage. Location is requested only if you tap Use my location, and only to suggest a country. Chat does not keep a remote transcript in this studio slice.`,
+      tr: `Canlı site ${site.domain}. Bölge ve dil cihazınızda tutulur. Konum yalnızca “Konumumu kullan” derseniz ve ülke önermek için istenir. Bu dilimde sohbet uzak bir kayda yazılmaz.`,
     },
   },
 };

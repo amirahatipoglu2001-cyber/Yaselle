@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { OwnerMailLink } from "@/components/owner-mail-link";
 import { t } from "@/content/i18n";
+import { site } from "@/content/site";
 import { useStore } from "@/lib/store";
 
 export default function ErrorPage({
@@ -21,8 +22,8 @@ export default function ErrorPage({
           subject={locale === "tr" ? "Yaselle — bir şey takıldı" : "Yaselle — something stalled"}
           body={
             locale === "tr"
-              ? "Sitede bir hata sürüyor.\n"
-              : "Something stalled on the site.\n"
+              ? `${site.domain} üzerinde bir hata sürüyor.\n`
+              : `Something stalled on ${site.domain}.\n`
           }
         >
           {t(locale, "writeOwner")}

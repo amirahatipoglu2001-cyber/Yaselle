@@ -32,11 +32,25 @@ export const metadata: Metadata = {
     default: site.name,
     template: `%s — ${site.name}`,
   },
-  description:
-    "Yaselle AI — refined women’s fashion, modest edits, and a human shopping advisor.",
+  description: site.description,
+  applicationName: site.name,
   authors: [{ name: owner.name, url: `mailto:${owner.email}` }],
   alternates: {
     canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["tr_TR"],
+    url: site.url,
+    siteName: site.name,
+    title: site.name,
+    description: site.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.name,
+    description: site.description,
   },
 };
 

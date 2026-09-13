@@ -1,10 +1,10 @@
-# Yaselle AI — E-Ticaret Deneyim, İçerik ve Görsel Tasarım Dokümanı
+# Yaselle — E-Ticaret Deneyim, İçerik ve Görsel Tasarım Dokümanı
 
-This file is the source brief for the storefront. The running app implements a complete first slice: region and language, editorial home, listing, product, bag, favorites, account, search, and Yaselle AI chat.
+This file is the source brief for the storefront. The running app implements a complete first slice: region and language, editorial home, listing, product, bag, favorites, account, search, and Yaselle chat.
 
 ## 1. Marka ve deneyim fikri
 
-**Yaselle AI**, modern, rafine ve kişisel hissettiren bir kadın moda e-ticaret deneyimidir. Kullanıcı siteye ilk birkaç saniyede şu üç şeyi anlamalıdır:
+**Yaselle**, modern, rafine ve kişisel hissettiren bir kadın moda e-ticaret deneyimidir. Kullanıcı siteye ilk birkaç saniyede şu üç şeyi anlamalıdır:
 
 1. Yaselle seçkin ve güncel bir moda markasıdır.
 2. Aradığı ürünü zorlanmadan keşfedebilir, bedenini ve siparişini güvenle yönetebilir.
@@ -32,4 +32,4 @@ Louis Vuitton benzeri güçlü editoryal boşluklar, premium tipografi ve sakin 
 
 ## 2–9
 
-Implemented in the storefront: region gate, header and drawer, editorial home, PLP filters and exact sort list, PDP, favorites collections with share links, mini-bag and bag page, account panel, Yaselle AI chat that never invents stock or dates, plus empty, loading, error, and 404 states.
+Implemented in the storefront: region gate, header and drawer, editorial home, PLP filters and exact sort list, PDP, favorites collections with share links, mini-bag and bag page, account panel, Yaselle chat that never invents stock or dates, plus empty, loading, error, and 404 states.
