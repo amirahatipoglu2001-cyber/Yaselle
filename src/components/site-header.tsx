@@ -4,17 +4,15 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Globe, Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
 import { t } from "@/content/i18n";
-import {
-  languageLabel,
-  shopLanguages,
-  type LanguageId,
-} from "@/content/regions";
+import { languageLabel, shopLanguages } from "@/content/regions";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { MenuDrawer } from "@/components/menu-drawer";
 import { SearchPanel } from "@/components/search-panel";
 import { CartDrawer } from "@/components/cart-drawer";
 import { AccountPanel } from "@/components/account-panel";
+
+const WORDMARK = "YASELLE";
 
 export function SiteHeader() {
   const { locale, country, cartCount, setPanel, setLocalePrefs, collections } =
@@ -78,21 +76,11 @@ export function SiteHeader() {
             >
               <Search className="size-5" />
             </button>
-          </div>
-
-          <Link
-            href="/"
-            className="font-display whitespace-nowrap text-sm tracking-[0.14em] uppercase sm:text-xl sm:tracking-[0.22em]"
-          >
-            {t(locale, "brand")}
-          </Link>
-
-          <div className="flex items-center justify-end gap-0.5">
             <div className="relative" ref={langRef}>
               <button
                 type="button"
                 className="inline-flex size-11 items-center justify-center"
-                aria-label={t(locale, "selectLanguage")}
+                aria-label={t(locale, "language")}
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
                 onClick={() => setLangOpen((open) => !open)}
@@ -102,7 +90,7 @@ export function SiteHeader() {
               {langOpen ? (
                 <ul
                   role="listbox"
-                  className="absolute top-full right-0 z-50 mt-1 min-w-[8.5rem] border border-border bg-background py-1 shadow-sm"
+                  className="absolute top-full left-0 z-50 mt-1 min-w-[8.5rem] border border-border bg-background py-1 shadow-sm"
                 >
                   {shopLanguages.map((id) => (
                     <li key={id} role="option" aria-selected={id === locale}>
@@ -113,7 +101,7 @@ export function SiteHeader() {
                           id === locale ? "bg-secondary" : "hover:bg-muted",
                         )}
                         onClick={() => {
-                          setLocalePrefs({ language: id as LanguageId });
+                          setLocalePrefs({ language: id });
                           setLangOpen(false);
                         }}
                       >
@@ -124,6 +112,16 @@ export function SiteHeader() {
                 </ul>
               ) : null}
             </div>
+          </div>
+
+          <Link
+            href="/"
+            className="font-display whitespace-nowrap text-sm tracking-[0.14em] uppercase sm:text-xl sm:tracking-[0.22em]"
+          >
+            {WORDMARK}
+          </Link>
+
+          <div className="flex items-center justify-end gap-0.5">
             <button
               type="button"
               className="inline-flex size-11 items-center justify-center"

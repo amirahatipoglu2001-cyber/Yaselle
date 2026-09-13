@@ -31,6 +31,7 @@ export const copy = {
   selectCountry: { en: "Select a country", tr: "Ülke seçin" },
   searchCountry: { en: "Search countries", tr: "Ülke ara" },
   selectLanguage: { en: "SELECT LANGUAGE", tr: "DİL SEÇİN" },
+  language: { en: "Language", tr: "Dil" },
   country: { en: "Country", tr: "Ülke" },
   change: { en: "Change", tr: "Değiştir" },
   currency: { en: "Currency", tr: "Para birimi" },
