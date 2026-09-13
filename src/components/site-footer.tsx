@@ -11,6 +11,7 @@ import { site } from "@/content/site";
 import { isValidEmail, letterDraft, openOwnerMail } from "@/lib/mail";
 import { useStore } from "@/lib/store";
 import { LocaleMenu } from "@/components/locale-menu";
+import { PaymentTrustRow } from "@/components/payment-trust";
 
 export function SiteFooter() {
   const { locale } = useStore();
@@ -94,6 +95,7 @@ export function SiteFooter() {
           <LocaleMenu />
         </div>
       </div>
+      <PaymentTrustRow />
     </footer>
   );
 }
