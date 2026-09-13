@@ -25,3 +25,5 @@ npm run build
 - Products and menus: `src/content/catalog.ts`
 - Regions and currencies: `src/content/regions.ts`
 - Copy: `src/content/i18n.ts`
+- Photographs: remote Unsplash and Pexels URLs in `src/content/media.ts` (no local product photos)
+- Wordmark: `public/yaselle-mark.svg`

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { buttonVariants } from "@/components/ui/button";
 import { products, quickCategories } from "@/content/catalog";
+import { media } from "@/content/media";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -18,8 +19,8 @@ export function HomePage() {
     <main>
       <section className="relative min-h-[80vh] overflow-hidden">
         <Image
-          src="/yaselle/yaselle-hero.png"
-          alt=""
+          src={media.hero}
+          alt="Yaselle 2026 new collection"
           fill
           priority
           className="object-cover"
@@ -67,7 +68,7 @@ export function HomePage() {
 
       <section className="reveal mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 sm:px-8 lg:grid-cols-2">
         <div className="relative aspect-4/3 overflow-hidden bg-muted">
-          <Image src="/yaselle/yaselle-story.png" alt="" fill className="object-cover" />
+          <Image src={media.story} alt="Yaselle editorial look" fill className="object-cover" />
         </div>
         <div>
           <h2 className="font-display text-4xl leading-tight">{t(locale, "storyTitle")}</h2>
@@ -105,7 +106,7 @@ export function HomePage() {
           </Link>
         </div>
         <div className="relative aspect-4/3 overflow-hidden bg-muted">
-          <Image src="/yaselle/yaselle-modest-edit.png" alt="" fill className="object-cover" />
+          <Image src={media.modestEdit} alt="Yaselle modest edit" fill className="object-cover" />
         </div>
       </section>
 
