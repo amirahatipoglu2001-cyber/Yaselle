@@ -23,6 +23,7 @@ export const media = {
   setOpen: u("photo-1545291730-faff8ca1d4b0"),
   lookbookOpen: p(3310694),
   shopping: p(972995),
+  skirtOpen: u("photo-1583496661160-fb5886a0aaaa"),
 
   // Modest / tesettür — hijabi women only
   modestEdit: p(35324598, 1600),
