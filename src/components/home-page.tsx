@@ -114,13 +114,12 @@ export function HomePage() {
         empty={t(locale, "emptyHomeBand")}
       />
 
-      <section className="reveal mx-auto max-w-6xl px-5 py-10 sm:px-8">
-        <h2 className="font-display text-3xl">{t(locale, "categories")}</h2>
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <section className="reveal px-5 py-10 sm:px-8">
+        <div className="flex gap-4 overflow-x-auto pb-2">
           {quickCategories.map((item) => (
-            <Link key={item.href} href={item.href}>
+            <Link key={item.id} href={item.href} className="w-56 shrink-0 sm:w-auto sm:min-w-0 sm:flex-1">
               <div className="relative aspect-3/4 overflow-hidden bg-muted">
-                <Image src={item.image} alt="" fill className="object-cover" sizes="(max-width: 640px) 50vw, 25vw" />
+                <Image src={item.image} alt="" fill className="object-cover" sizes="(max-width: 640px) 224px, 33vw" />
               </div>
               <p className="mt-2 text-xs tracking-[0.08em] uppercase">{item.label[locale]}</p>
             </Link>

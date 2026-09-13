@@ -79,7 +79,9 @@ export function ProductListing({
     if (color) next = next.filter((product) => product.colors.some((item) => item.id === color));
     if (material) next = next.filter((product) => product.materials.includes(material));
     if (collection) next = next.filter((product) => product.collection === collection);
-    if (sale) next = next.filter((product) => Boolean(product.compareAtTry));
+    if (sale || sort === "sale") {
+      next = next.filter((product) => Boolean(product.compareAtTry) || product.tags.includes("sale"));
+    }
     if (stock) next = next.filter(isInStock);
     next = next.filter((product) => product.priceTry >= min && product.priceTry <= max);
 
