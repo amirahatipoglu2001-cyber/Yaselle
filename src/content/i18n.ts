@@ -244,8 +244,8 @@ for (const [key, phrase] of Object.entries(copy)) {
 }
 
 export function t(locale: Locale, key: CopyKey) {
-  const phrase = copy[key];
-  return phrase[locale] || phrase.en;
+  const phrase = copy[key] as Record<string, string | undefined>;
+  return phrase[locale] || phrase.en || "";
 }
 
 export function saveLabel(locale: Locale, saved: boolean) {

@@ -5,7 +5,18 @@ export type RegionId =
   | "middle-east"
   | "asia-pacific";
 
-export type LanguageId = "tr" | "en";
+export type LanguageId =
+  | "tr"
+  | "en"
+  | "fr"
+  | "de"
+  | "it"
+  | "es"
+  | "nl"
+  | "pt"
+  | "ar"
+  | "ja"
+  | "ko";
 
 export type Country = {
   code: string;
@@ -21,8 +32,24 @@ export type Country = {
   searchAliases?: string[];
 };
 
-/** Storefront languages — always both, never derived from a half-empty country map. */
-export const shopLanguages: LanguageId[] = ["tr", "en"];
+/** UI languages for every country in the store map — globe and Dil seçin share this list. */
+export const shopLanguages: LanguageId[] = [
+  "tr",
+  "en",
+  "fr",
+  "de",
+  "it",
+  "es",
+  "nl",
+  "pt",
+  "ar",
+  "ja",
+  "ko",
+];
+
+export function isShopLanguage(value: unknown): value is LanguageId {
+  return typeof value === "string" && (shopLanguages as string[]).includes(value);
+}
 
 export const regions: {
   id: RegionId;
@@ -57,37 +84,44 @@ export const countries: Country[] = [
       "TR",
     ],
   },
-  { code: "FR", name: { en: "France", tr: "Fransa" }, flag: "🇫🇷", currency: "EUR", currencySymbol: "€", languages: ["en", "tr"], region: "europe" },
-  { code: "DE", name: { en: "Germany", tr: "Almanya" }, flag: "🇩🇪", currency: "EUR", currencySymbol: "€", languages: ["en", "tr"], region: "europe" },
+  { code: "FR", name: { en: "France", tr: "Fransa" }, flag: "🇫🇷", currency: "EUR", currencySymbol: "€", languages: ["fr", "en", "tr"], region: "europe" },
+  { code: "DE", name: { en: "Germany", tr: "Almanya" }, flag: "🇩🇪", currency: "EUR", currencySymbol: "€", languages: ["de", "en", "tr"], region: "europe" },
   { code: "GB", name: { en: "United Kingdom", tr: "Birleşik Krallık" }, flag: "🇬🇧", currency: "GBP", currencySymbol: "£", languages: ["en", "tr"], region: "europe" },
-  { code: "IT", name: { en: "Italy", tr: "İtalya" }, flag: "🇮🇹", currency: "EUR", currencySymbol: "€", languages: ["en", "tr"], region: "europe" },
-  { code: "NL", name: { en: "Netherlands", tr: "Hollanda" }, flag: "🇳🇱", currency: "EUR", currencySymbol: "€", languages: ["en", "tr"], region: "europe" },
-  { code: "ES", name: { en: "Spain", tr: "İspanya" }, flag: "🇪🇸", currency: "EUR", currencySymbol: "€", languages: ["en", "tr"], region: "europe" },
+  { code: "IT", name: { en: "Italy", tr: "İtalya" }, flag: "🇮🇹", currency: "EUR", currencySymbol: "€", languages: ["it", "en", "tr"], region: "europe" },
+  { code: "NL", name: { en: "Netherlands", tr: "Hollanda" }, flag: "🇳🇱", currency: "EUR", currencySymbol: "€", languages: ["nl", "en", "tr"], region: "europe" },
+  { code: "ES", name: { en: "Spain", tr: "İspanya" }, flag: "🇪🇸", currency: "EUR", currencySymbol: "€", languages: ["es", "en", "tr"], region: "europe" },
   { code: "US", name: { en: "United States", tr: "Amerika Birleşik Devletleri" }, flag: "🇺🇸", currency: "USD", currencySymbol: "$", languages: ["en", "tr"], region: "north-america" },
-  { code: "CA", name: { en: "Canada", tr: "Kanada" }, flag: "🇨🇦", currency: "CAD", currencySymbol: "$", languages: ["en", "tr"], region: "north-america" },
-  { code: "BR", name: { en: "Brazil", tr: "Brezilya" }, flag: "🇧🇷", currency: "BRL", currencySymbol: "R$", languages: ["en", "tr"], region: "south-america" },
-  { code: "AR", name: { en: "Argentina", tr: "Arjantin" }, flag: "🇦🇷", currency: "USD", currencySymbol: "$", languages: ["en", "tr"], region: "south-america" },
-  { code: "AE", name: { en: "United Arab Emirates", tr: "Birleşik Arap Emirlikleri" }, flag: "🇦🇪", currency: "AED", currencySymbol: "د.إ", languages: ["en", "tr"], region: "middle-east" },
-  { code: "SA", name: { en: "Saudi Arabia", tr: "Suudi Arabistan" }, flag: "🇸🇦", currency: "SAR", currencySymbol: "﷼", languages: ["en", "tr"], region: "middle-east" },
-  { code: "QA", name: { en: "Qatar", tr: "Katar" }, flag: "🇶🇦", currency: "QAR", currencySymbol: "ر.ق", languages: ["en", "tr"], region: "middle-east" },
-  { code: "KW", name: { en: "Kuwait", tr: "Kuveyt" }, flag: "🇰🇼", currency: "KWD", currencySymbol: "د.ك", languages: ["en", "tr"], region: "middle-east" },
-  { code: "JP", name: { en: "Japan", tr: "Japonya" }, flag: "🇯🇵", currency: "JPY", currencySymbol: "¥", languages: ["en", "tr"], region: "asia-pacific" },
+  { code: "CA", name: { en: "Canada", tr: "Kanada" }, flag: "🇨🇦", currency: "CAD", currencySymbol: "$", languages: ["en", "fr", "tr"], region: "north-america" },
+  { code: "BR", name: { en: "Brazil", tr: "Brezilya" }, flag: "🇧🇷", currency: "BRL", currencySymbol: "R$", languages: ["pt", "en", "tr"], region: "south-america" },
+  { code: "AR", name: { en: "Argentina", tr: "Arjantin" }, flag: "🇦🇷", currency: "USD", currencySymbol: "$", languages: ["es", "en", "tr"], region: "south-america" },
+  { code: "AE", name: { en: "United Arab Emirates", tr: "Birleşik Arap Emirlikleri" }, flag: "🇦🇪", currency: "AED", currencySymbol: "د.إ", languages: ["ar", "en", "tr"], region: "middle-east" },
+  { code: "SA", name: { en: "Saudi Arabia", tr: "Suudi Arabistan" }, flag: "🇸🇦", currency: "SAR", currencySymbol: "﷼", languages: ["ar", "en", "tr"], region: "middle-east" },
+  { code: "QA", name: { en: "Qatar", tr: "Katar" }, flag: "🇶🇦", currency: "QAR", currencySymbol: "ر.ق", languages: ["ar", "en", "tr"], region: "middle-east" },
+  { code: "KW", name: { en: "Kuwait", tr: "Kuveyt" }, flag: "🇰🇼", currency: "KWD", currencySymbol: "د.ك", languages: ["ar", "en", "tr"], region: "middle-east" },
+  { code: "JP", name: { en: "Japan", tr: "Japonya" }, flag: "🇯🇵", currency: "JPY", currencySymbol: "¥", languages: ["ja", "en", "tr"], region: "asia-pacific" },
   { code: "AU", name: { en: "Australia", tr: "Avustralya" }, flag: "🇦🇺", currency: "AUD", currencySymbol: "$", languages: ["en", "tr"], region: "asia-pacific" },
   { code: "SG", name: { en: "Singapore", tr: "Singapur" }, flag: "🇸🇬", currency: "SGD", currencySymbol: "$", languages: ["en", "tr"], region: "asia-pacific" },
-  { code: "KR", name: { en: "South Korea", tr: "Güney Kore" }, flag: "🇰🇷", currency: "KRW", currencySymbol: "₩", languages: ["en", "tr"], region: "asia-pacific" },
+  { code: "KR", name: { en: "South Korea", tr: "Güney Kore" }, flag: "🇰🇷", currency: "KRW", currencySymbol: "₩", languages: ["ko", "en", "tr"], region: "asia-pacific" },
 ];
 
-export const languageMeta: Record<
-  LanguageId,
-  { flag: string; label: { en: string; tr: string } }
-> = {
-  tr: { flag: "🇹🇷", label: { en: "Türkçe", tr: "Türkçe" } },
-  en: { flag: "🇬🇧", label: { en: "English", tr: "English" } },
-};
+export const languageMeta: Record<LanguageId, { flag: string; native: string }> =
+  {
+    tr: { flag: "🇹🇷", native: "Türkçe" },
+    en: { flag: "🇬🇧", native: "English" },
+    fr: { flag: "🇫🇷", native: "Français" },
+    de: { flag: "🇩🇪", native: "Deutsch" },
+    it: { flag: "🇮🇹", native: "Italiano" },
+    es: { flag: "🇪🇸", native: "Español" },
+    nl: { flag: "🇳🇱", native: "Nederlands" },
+    pt: { flag: "🇧🇷", native: "Português" },
+    ar: { flag: "🇸🇦", native: "العربية" },
+    ja: { flag: "🇯🇵", native: "日本語" },
+    ko: { flag: "🇰🇷", native: "한국어" },
+  };
 
 /** Native labels so the language row is never blank or locale-swapped. */
 export function languageLabel(id: LanguageId) {
-  return languageMeta[id].label[id === "tr" ? "tr" : "en"];
+  return languageMeta[id].native;
 }
 
 export const ratesFromTry: Record<string, number> = {

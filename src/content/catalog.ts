@@ -1,8 +1,16 @@
 import { media } from "@/content/media";
+import type { LanguageId } from "@/content/regions";
 
-export type Locale = "en" | "tr";
+export type Locale = LanguageId;
 
-export type Localized = Record<Locale, string>;
+/** Product/catalog strings stay English + Turkish; other locales fall back to English. */
+export type Localized = { en: string; tr: string };
+
+export function loc(text: Localized | undefined, locale: Locale): string {
+  if (!text) return "";
+  const table = text as Record<string, string | undefined>;
+  return table[locale] || text.en;
+}
 
 export type ProductColor = {
   id: string;
@@ -625,9 +633,9 @@ export function toClientProduct(product: Product): Product {
 
 export function categoryLabel(id: string, locale: Locale) {
   for (const category of categoryTree) {
-    if (category.id === id) return category.label[locale];
+    if (category.id === id) return loc(category.label, locale);
     const child = category.children.find((item) => item.id === id);
-    if (child) return child.label[locale];
+    if (child) return loc(child.label, locale);
   }
   return id;
 }

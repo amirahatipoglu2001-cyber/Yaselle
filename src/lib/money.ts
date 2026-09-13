@@ -1,3 +1,4 @@
+import type { Locale } from "@/content/catalog";
 import { ratesFromTry, type Country } from "@/content/regions";
 
 export function convertFromTry(amountTry: number, currency: string) {
@@ -8,9 +9,23 @@ export function convertFromTry(amountTry: number, currency: string) {
   return Math.round(amountTry * rate * 100) / 100;
 }
 
-export function formatMoney(amountTry: number, country: Country, locale: "en" | "tr") {
+const numberLocales: Record<string, string> = {
+  tr: "tr-TR",
+  en: "en-GB",
+  fr: "fr-FR",
+  de: "de-DE",
+  it: "it-IT",
+  es: "es-ES",
+  nl: "nl-NL",
+  pt: "pt-BR",
+  ar: "ar-AE",
+  ja: "ja-JP",
+  ko: "ko-KR",
+};
+
+export function formatMoney(amountTry: number, country: Country, locale: Locale) {
   const value = convertFromTry(amountTry, country.currency);
-  const numberLocale = locale === "tr" ? "tr-TR" : "en-GB";
+  const numberLocale = numberLocales[locale] ?? "en-GB";
   return new Intl.NumberFormat(numberLocale, {
     style: "currency",
     currency: country.currency,

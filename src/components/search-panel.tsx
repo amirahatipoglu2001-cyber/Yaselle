@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { products } from "@/content/catalog";
+import { loc, products } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 
@@ -126,7 +126,7 @@ export function SearchPanel() {
                     setPanel(null);
                   }}
                 >
-                  {product.name[locale]}
+                  {loc(product.name, locale)}
                   <span className="text-muted-foreground">{product.subcategory}</span>
                 </Link>
               </li>

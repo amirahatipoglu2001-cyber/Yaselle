@@ -11,7 +11,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { categoryTree, menuExtras } from "@/content/catalog";
+import { categoryTree, loc, menuExtras } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { languageLabel, languageMeta, shopLanguages } from "@/content/regions";
 import { useStore } from "@/lib/store";
@@ -87,7 +87,7 @@ export function MenuDrawer() {
                   className="font-medium"
                   onClick={() => setPanel(null)}
                 >
-                  {category.label[locale]}
+                  {loc(category.label, locale)}
                 </Link>
                 {category.children.length > 0 ? (
                   <ul className="mt-2 space-y-1 pl-3 text-sm text-muted-foreground">
@@ -97,7 +97,7 @@ export function MenuDrawer() {
                           href={`${category.href}?sub=${child.id}`}
                           onClick={() => setPanel(null)}
                         >
-                          {child.label[locale]}
+                          {loc(child.label, locale)}
                         </Link>
                       </li>
                     ))}
@@ -114,7 +114,7 @@ export function MenuDrawer() {
                 className="flex min-h-11 items-center justify-between border-b border-border text-sm"
                 onClick={() => setPanel(null)}
               >
-                {item.label[locale]}
+                {loc(item.label, locale)}
                 <ChevronRight className="size-4 text-muted-foreground" />
               </Link>
             ))}
@@ -137,12 +137,12 @@ export function MenuDrawer() {
               {t(locale, "chatSupport")}
             </button>
             <p className="mt-8 text-xs text-muted-foreground">
-              {country.flag} {country.name[locale]} · {country.currency}
+              {country.flag} {loc(country.name, locale)} · {country.currency}
             </p>
             <p className="mt-4 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
               {t(locale, "selectLanguage")}
             </p>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 flex max-h-52 flex-wrap gap-2 overflow-y-auto overscroll-contain">
               {shopLanguages.map((id) => (
                 <button
                   key={id}

@@ -10,7 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { getProductById } from "@/content/catalog";
+import { getProductById, loc } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { formatMoney } from "@/lib/money";
 import { useStore } from "@/lib/store";
@@ -64,15 +64,18 @@ export function CartDrawer() {
                   <li key={`${line.productId}-${line.size}-${line.colorId}`} className="flex gap-3">
                     <Image
                       src={product!.images[0]}
-                      alt={product!.name[locale]}
+                      alt={loc(product!.name, locale)}
                       width={72}
                       height={96}
                       className="h-24 w-18 object-cover"
                     />
                     <div className="flex-1 text-sm">
-                      <p>{product!.name[locale]}</p>
+                      <p>{loc(product!.name, locale)}</p>
                       <p className="text-muted-foreground">
-                        {product!.colors.find((color) => color.id === line.colorId)?.name[locale]} · {line.size}
+                        {(() => {
+                          const color = product!.colors.find((item) => item.id === line.colorId);
+                          return color ? loc(color.name, locale) : "";
+                        })()} · {line.size}
                       </p>
                       <p className="mt-1">{formatMoney(product!.priceTry, country, locale)}</p>
                       <div className="mt-2 flex items-center gap-2">

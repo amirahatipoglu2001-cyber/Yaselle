@@ -16,6 +16,7 @@ import {
 import {
   countries,
   countryByCode,
+  isShopLanguage,
   type Country,
   type LanguageId,
   type RegionId,
@@ -133,7 +134,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             users: parsed.users ?? [],
             region: parsed.region,
             countryCode: parsed.countryCode,
-            language: parsed.language,
+            language: isShopLanguage(parsed.language) ? parsed.language : undefined,
             completedGate: parsed.completedGate,
             sessionEmail: parsed.sessionEmail,
           });
@@ -155,7 +156,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, [hydrated, state]);
 
   const country = countryByCode(state.countryCode ?? "TR") ?? countries[0];
-  const locale: Locale = state.language ?? (country.code === "TR" ? "tr" : "en");
+  const locale: Locale = isShopLanguage(state.language)
+    ? state.language
+    : country.code === "TR"
+      ? "tr"
+      : country.languages[0] ?? "en";
   const region: RegionId = state.region ?? country.region;
 
   const completeGate = useCallback(

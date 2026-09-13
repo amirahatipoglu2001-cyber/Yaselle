@@ -13,6 +13,7 @@ import {
   searchCountries,
   shopLanguages,
 } from "@/content/regions";
+import { loc } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -51,7 +52,7 @@ export function RegionGate() {
           if (match) {
             setRegion(match.region);
             setCountryCode(match.code);
-            setLanguage(match.code === "TR" ? "tr" : match.languages[0]);
+            setLanguage(match.languages[0] ?? "en");
             setQuery("");
             setStep("country");
             setLocationNote("hint");
@@ -98,7 +99,7 @@ export function RegionGate() {
                     setRegion(item.id);
                     const first = countriesInRegion(item.id)[0];
                     setCountryCode(first.code);
-                    setLanguage(first.code === "TR" ? "tr" : first.languages[0]);
+                    setLanguage(first.languages[0] ?? "en");
                     setQuery("");
                     setStep("country");
                   }}
@@ -107,7 +108,7 @@ export function RegionGate() {
                     region === item.id ? "border-primary bg-secondary" : "border-border",
                   )}
                 >
-                  {item.label[locale]}
+                  {loc(item.label, locale)}
                 </button>
               ))}
             </div>
@@ -146,7 +147,6 @@ export function RegionGate() {
                     onClick={() => {
                       setCountryCode(country.code);
                       setRegion(country.region);
-                      setLanguage(country.code === "TR" ? "tr" : language);
                     }}
                     className={cn(
                       "flex min-h-11 w-full items-center gap-3 border px-3 text-left text-sm",
@@ -156,7 +156,7 @@ export function RegionGate() {
                     )}
                   >
                     <span aria-hidden>{country.flag}</span>
-                    {country.name[locale]}
+                    {loc(country.name, locale)}
                   </button>
                 </li>
               ))}
@@ -166,9 +166,9 @@ export function RegionGate() {
               {t(locale, "selectLanguage")}
             </h2>
             <p className="mt-3 text-sm">
-              {t(locale, "country")}: {selected.flag} {selected.name[locale]}
+              {t(locale, "country")}: {selected.flag} {loc(selected.name, locale)}
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex max-h-48 flex-wrap gap-2 overflow-y-auto overscroll-contain">
               {shopLanguages.map((id) => (
                 <button
                   key={id}

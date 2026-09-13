@@ -10,10 +10,11 @@ import {
   searchCountries,
   shopLanguages,
 } from "@/content/regions";
+import { loc } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import type { LanguageId, RegionId } from "@/content/regions";
+import type { RegionId } from "@/content/regions";
 
 export function LocaleMenu() {
   const { locale, country, region, setLocalePrefs, setPanel, panel } = useStore();
@@ -31,7 +32,7 @@ export function LocaleMenu() {
         type="button"
         className="inline-flex min-h-11 items-center px-2 text-[11px] tracking-[0.12em] sm:uppercase"
         aria-expanded={open}
-        aria-label={`${country.flag} ${country.name[locale]} · ${languageLabel(locale)}`}
+        aria-label={`${country.flag} ${loc(country.name, locale)} · ${languageLabel(locale)}`}
         onClick={() => setPanel(open ? null : "locale")}
       >
         {country.flag} {languageLabel(locale)}
@@ -55,7 +56,7 @@ export function LocaleMenu() {
                   setQuery("");
                 }}
               >
-                {item.label[locale]}
+                {loc(item.label, locale)}
               </button>
             ))}
           </div>
@@ -79,12 +80,11 @@ export function LocaleMenu() {
                     setLocalePrefs({
                       region: item.region,
                       countryCode: item.code,
-                      language: item.code === "TR" ? "tr" : locale,
                     });
                     setLocalRegion(item.region);
                   }}
                 >
-                  {item.flag} {item.name[locale]}
+                  {item.flag} {loc(item.name, locale)}
                 </button>
               </li>
             ))}
@@ -92,14 +92,14 @@ export function LocaleMenu() {
           <p className="mt-4 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
             {t(locale, "selectLanguage")}
           </p>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex max-h-40 flex-wrap gap-2 overflow-y-auto overscroll-contain">
             {shopLanguages.map((id) => (
               <Button
                 key={id}
                 size="sm"
                 variant={id === locale ? "default" : "outline"}
                 className="rounded-sm"
-                onClick={() => setLocalePrefs({ language: id as LanguageId })}
+                onClick={() => setLocalePrefs({ language: id })}
               >
                 {languageMeta[id].flag} {languageLabel(id)}
               </Button>

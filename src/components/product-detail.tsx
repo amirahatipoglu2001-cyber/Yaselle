@@ -8,7 +8,7 @@ import { ProductCard } from "@/components/product-card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { getProductById, stockFor, type Product } from "@/content/catalog";
+import { getProductById, loc, stockFor, type Product } from "@/content/catalog";
 import { saveLabel, t } from "@/content/i18n";
 import { formatMoney } from "@/lib/money";
 import { useStore } from "@/lib/store";
@@ -37,14 +37,14 @@ export function ProductDetail({ product }: { product: Product }) {
       <nav className="text-xs text-muted-foreground">
         <Link href="/">Yaselle</Link> /{" "}
         <Link href={`/shop/${product.category}`}>{product.category}</Link> /{" "}
-        {product.name[locale]}
+        {loc(product.name, locale)}
       </nav>
       <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <div className="space-y-3">
           <button type="button" className="relative aspect-3/4 w-full overflow-hidden bg-muted" onClick={() => setZoom(true)}>
             <Image
               src={hero}
-              alt={product.name[locale]}
+              alt={loc(product.name, locale)}
               fill
               priority
               className="object-cover"
@@ -69,7 +69,7 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
 
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <h1 className="font-display text-4xl">{product.name[locale]}</h1>
+          <h1 className="font-display text-4xl">{loc(product.name, locale)}</h1>
           <p className="mt-3 text-lg">
             {product.compareAtTry ? (
               <>
@@ -86,14 +86,14 @@ export function ProductDetail({ product }: { product: Product }) {
           </p>
           <fieldset className="mt-6">
             <legend className="text-sm">
-              {t(locale, "color")}: {color?.name[locale]}
+              {t(locale, "color")}: {color ? loc(color.name, locale) : ""}
             </legend>
             <div className="mt-2 flex gap-2">
               {product.colors.map((item) => (
                 <button
                   key={item.id}
                   type="button"
-                  aria-label={item.name[locale]}
+                  aria-label={loc(item.name, locale)}
                   className={cn(
                     "size-8 border",
                     colorId === item.id ? "border-primary" : "border-border",
@@ -186,16 +186,16 @@ export function ProductDetail({ product }: { product: Product }) {
           <Accordion className="mt-6" multiple={true}>
             <AccordionItem value="details">
               <AccordionTrigger>{t(locale, "details")}</AccordionTrigger>
-              <AccordionContent>{product.details[locale]}</AccordionContent>
+              <AccordionContent>{loc(product.details, locale)}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="fit">
               <AccordionTrigger>{t(locale, "fitSize")}</AccordionTrigger>
-              <AccordionContent>{product.fit[locale]}</AccordionContent>
+              <AccordionContent>{loc(product.fit, locale)}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="fabric">
               <AccordionTrigger>{t(locale, "fabricCare")}</AccordionTrigger>
               <AccordionContent>
-                {product.fabric[locale]} {product.care[locale]}
+                {loc(product.fabric, locale)} {loc(product.care, locale)}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="delivery">
@@ -232,7 +232,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="relative aspect-3/4 w-full">
             <Image
               src={hero}
-              alt={product.name[locale]}
+              alt={loc(product.name, locale)}
               fill
               className="object-contain"
             />

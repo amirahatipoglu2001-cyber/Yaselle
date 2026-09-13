@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import {
   categoryTree,
   isInStock,
+  loc,
   products,
   productInCategory,
   sortOptions,
@@ -29,7 +30,7 @@ export function ProductListing({
 }) {
   const { locale } = useStore();
   const categoryMeta = categoryTree.find((item) => item.id === category);
-  const heading = categoryMeta?.label[locale] ?? title;
+  const heading = categoryMeta ? loc(categoryMeta.label, locale) : title;
   const children = categoryMeta?.children ?? [];
   const blurb =
     intro ??
@@ -132,7 +133,7 @@ export function ProductListing({
                   setQuery({ sub: sub === child.id ? undefined : child.id })
                 }
               />
-              {child.label[locale]}
+              {loc(child.label, locale)}
             </label>
           ))}
         </div>
@@ -185,7 +186,7 @@ export function ProductListing({
               }
               onClick={() => setQuery({ sub: sub === child.id ? undefined : child.id })}
             >
-              {child.label[locale]}
+              {loc(child.label, locale)}
             </button>
           ))}
         </div>
@@ -205,7 +206,7 @@ export function ProductListing({
             >
               {sortOptions.map((option) => (
                 <option key={option.id} value={option.id}>
-                  {option.label[locale]}
+                  {loc(option.label, locale)}
                 </option>
               ))}
             </select>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { getProductById } from "@/content/catalog";
+import { getProductById, loc } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { formatMoney } from "@/lib/money";
 import { useStore } from "@/lib/store";
@@ -37,11 +37,15 @@ export default function BagPage() {
         <ul className="mt-8 divide-y divide-border">
           {lines.map(({ line, product }) => (
             <li key={`${line.productId}-${line.size}`} className="flex gap-4 py-6">
-              <Image src={product!.images[0]} alt={product!.name[locale]} width={96} height={128} className="object-cover" />
+              <Image src={product!.images[0]} alt={loc(product!.name, locale)} width={96} height={128} className="object-cover" />
               <div className="flex-1 text-sm">
-                <Link href={`/product/${product!.slug}`}>{product!.name[locale]}</Link>
+                <Link href={`/product/${product!.slug}`}>{loc(product!.name, locale)}</Link>
                 <p className="text-muted-foreground">
-                  {line.size} · {product!.colors.find((c) => c.id === line.colorId)?.name[locale]}
+                  {line.size} ·{" "}
+                  {(() => {
+                    const color = product!.colors.find((c) => c.id === line.colorId);
+                    return color ? loc(color.name, locale) : "";
+                  })()}
                 </p>
                 <p className="mt-2">{formatMoney(product!.priceTry, country, locale)}</p>
                 <input

@@ -9,7 +9,7 @@ export function DocumentLocale() {
 
   useEffect(() => {
     const root = document.documentElement;
-    // Follow the shopper's TR/EN choice for assistive tech.
+    // Follow the shopper's language choice for assistive tech.
     root.lang = locale;
     root.setAttribute("data-locale", locale);
     // CSS `uppercase` under lang="tr" maps i → İ. Keep latin casing by

@@ -6,7 +6,7 @@ import { Heart } from "lucide-react";
 import { formatMoney } from "@/lib/money";
 import { saveLabel } from "@/content/i18n";
 import { useStore } from "@/lib/store";
-import type { Product } from "@/content/catalog";
+import { loc, type Product } from "@/content/catalog";
 import { cn } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -20,7 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
         <Link href={`/product/${product.slug}`} className="absolute inset-0">
           <Image
             src={product.images[0]}
-            alt={product.name[locale]}
+            alt={loc(product.name, locale)}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
             className="object-cover transition-opacity duration-200 group-hover:opacity-0"
@@ -41,9 +41,9 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="mt-3 flex items-start justify-between gap-3">
         <Link href={`/product/${product.slug}`} className="min-w-0">
-          <h3 className="text-sm leading-5">{product.name[locale]}</h3>
+          <h3 className="text-sm leading-5">{loc(product.name, locale)}</h3>
           <p className="mt-1 text-xs text-muted-foreground">
-            {product.colors[0]?.name[locale]}
+            {product.colors[0] ? loc(product.colors[0].name, locale) : ""}
           </p>
           <p className="mt-1 text-sm">
             {sale ? (

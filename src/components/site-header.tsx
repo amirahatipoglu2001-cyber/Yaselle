@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Globe, Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
+import { loc } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { languageLabel, shopLanguages } from "@/content/regions";
 import { useStore } from "@/lib/store";
@@ -52,7 +53,7 @@ export function SiteHeader() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 transition-colors duration-300",
+          "sticky top-0 z-50 overflow-visible transition-colors duration-300",
           scrolled
             ? "bg-background/95 shadow-[0_1px_0_rgb(23_23_23/10%)] backdrop-blur-md"
             : "bg-transparent",
@@ -90,7 +91,7 @@ export function SiteHeader() {
               {langOpen ? (
                 <ul
                   role="listbox"
-                  className="absolute top-full left-0 z-50 mt-1 min-w-[8.5rem] border border-border bg-background py-1 shadow-sm"
+                  className="absolute top-full left-0 z-[60] mt-1 max-h-[min(70vh,24rem)] min-w-[11rem] overflow-y-auto overscroll-contain border border-border bg-background py-1 shadow-sm"
                 >
                   {shopLanguages.map((id) => (
                     <li key={id} role="option" aria-selected={id === locale}>
@@ -158,7 +159,7 @@ export function SiteHeader() {
           </div>
         </div>
         <p className="sr-only">
-          {country.flag} {country.name[locale]} · {languageLabel(locale)}
+          {country.flag} {loc(country.name, locale)} · {languageLabel(locale)}
         </p>
       </header>
       <MenuDrawer />

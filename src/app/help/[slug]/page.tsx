@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { OwnerMailLink } from "@/components/owner-mail-link";
+import { loc } from "@/content/catalog";
 import { splitCopy, t } from "@/content/i18n";
 import { owner } from "@/content/profile";
 import { site } from "@/content/site";
@@ -167,9 +168,9 @@ export default function HelpPage({
   }
   return (
     <main className="mx-auto max-w-2xl px-5 py-16">
-      <h1 className="font-display text-4xl">{page.title[locale]}</h1>
+      <h1 className="font-display text-4xl">{loc(page.title, locale)}</h1>
       <p className="mt-6 text-base leading-8 text-muted-foreground">
-        <HelpBody text={page.body[locale]} />
+        <HelpBody text={loc(page.body, locale)} />
       </p>
       {slug === "contact" ? (
         <>

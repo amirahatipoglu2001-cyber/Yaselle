@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { products } from "@/content/catalog";
+import { products, type Locale } from "@/content/catalog";
 import { t } from "@/content/i18n";
 import { owner } from "@/content/profile";
 import { chatHandoffDraft, isValidEmail, openOwnerMail } from "@/lib/mail";
@@ -13,7 +13,7 @@ import { useStore } from "@/lib/store";
 
 type Message = { from: "bot" | "you"; text: string };
 
-function reply(locale: "en" | "tr", text: string) {
+function reply(locale: Locale, text: string) {
   const q = text.toLowerCase();
   const wantsSize = q.includes("beden") || q.includes("size") || q.includes("ölçü");
   const wantsShip =
