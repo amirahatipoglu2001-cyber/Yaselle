@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MessageCircle, X } from "lucide-react";
+import { MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { products } from "@/content/catalog";
@@ -136,18 +136,31 @@ export function ChatWidget() {
 
   function writeToPerson() {
     const transcript = thread
-      .map((message) => `${message.from === "you" ? "You" : "Yaselle"}: ${message.text}`)
+      .map((message) => `${message.from === "you" ? "You" : "Yaselle AI"}: ${message.text}`)
       .join("\n");
     const draft = chatHandoffDraft(locale, transcript);
     openOwnerMail(draft.subject, draft.body);
   }
 
   return (
-    <div id="yaselle-chat" className="fixed right-4 bottom-4 z-40">
+    <div
+      id="yaselle-chat"
+      className="fixed right-[max(1rem,env(safe-area-inset-right))] z-40 flex flex-col items-end"
+      style={{
+        bottom: "max(1rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem))",
+      }}
+    >
       {open ? (
-        <div className="mb-3 flex h-[min(70vh,28rem)] w-[min(92vw,22rem)] flex-col border border-border bg-background shadow-sm">
+        <div
+          id="yaselle-chat-panel"
+          role="dialog"
+          aria-labelledby="yaselle-chat-title"
+          className="mb-3 flex h-[min(70vh,28rem)] w-[min(92vw,22rem)] flex-col border border-border bg-background shadow-sm"
+        >
           <div className="flex items-center justify-between border-b border-border px-3 py-2">
-            <p className="text-sm">{t(locale, "brand")}</p>
+            <p id="yaselle-chat-title" className="text-sm font-medium">
+              {t(locale, "chatTitle")}
+            </p>
             <button
               type="button"
               className="size-11"
@@ -159,12 +172,19 @@ export function ChatWidget() {
           </div>
           <div className="flex-1 space-y-3 overflow-y-auto p-3 text-sm">
             {thread.map((message, index) => (
-              <p
+              <div
                 key={`${message.from}-${index}`}
-                className={message.from === "you" ? "text-right" : "text-left text-muted-foreground"}
+                className={message.from === "you" ? "text-right" : "text-left"}
               >
-                <ChatText text={message.text} />
-              </p>
+                {message.from === "bot" ? (
+                  <span className="mb-1 block text-[10px] font-medium tracking-[0.16em] text-muted-foreground">
+                    {t(locale, "chatLabel")}
+                  </span>
+                ) : null}
+                <p className={message.from === "bot" ? "text-muted-foreground" : undefined}>
+                  <ChatText text={message.text} />
+                </p>
+              </div>
             ))}
             {pending ? <p className="text-xs text-muted-foreground">…</p> : null}
           </div>
@@ -201,11 +221,15 @@ export function ChatWidget() {
         </div>
       ) : null}
       <Button
-        className="size-12 rounded-sm"
+        type="button"
+        className="h-12 gap-1.5 rounded-sm px-3.5"
         aria-label={t(locale, "chatOpen")}
+        aria-expanded={open}
+        aria-controls="yaselle-chat-panel"
         onClick={() => setOpen((value) => !value)}
       >
-        <MessageCircle className="size-5" />
+        <MessageSquare className="size-5" strokeWidth={2} aria-hidden />
+        <span className="text-xs font-semibold tracking-[0.16em]">{t(locale, "chatLabel")}</span>
       </Button>
     </div>
   );

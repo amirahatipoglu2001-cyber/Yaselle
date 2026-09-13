@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { ChatWidget } from "@/components/chat-widget";
 import { DocumentLocale } from "@/components/document-locale";
@@ -25,6 +25,12 @@ const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
   style: ["normal", "italic"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
