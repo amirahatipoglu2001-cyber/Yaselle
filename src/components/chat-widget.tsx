@@ -229,7 +229,6 @@ export function ChatWidget() {
         onClick={() => setOpen((value) => !value)}
       >
         <MessageSquare className="size-5" strokeWidth={2} aria-hidden />
-        <span className="text-xs font-semibold tracking-[0.12em]">AI</span>
         <span className="text-xs font-semibold tracking-[0.08em]">{t(locale, "chatTitle")}</span>
       </Button>
     </div>
