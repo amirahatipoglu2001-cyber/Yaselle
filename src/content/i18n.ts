@@ -2,7 +2,7 @@ import type { Locale } from "@/content/catalog";
 
 export const copy = {
   skip: { en: "Skip to content", tr: "İçeriğe geç" },
-  brand: { en: "Yaselle AI", tr: "Yaselle AI" },
+  brand: { en: "Yaselle", tr: "Yaselle" },
   search: { en: "Search", tr: "Ara" },
   menu: { en: "Menu", tr: "Menü" },
   close: { en: "Close", tr: "Kapat" },
@@ -172,7 +172,7 @@ export const copy = {
   noOrders: { en: "No orders yet.", tr: "Henüz sipariş yok." },
   chatOpen: { en: "Open Yaselle AI", tr: "Yaselle AI sohbetini aç" },
   chatTitle: { en: "Yaselle AI", tr: "Yaselle AI" },
-  chatLabel: { en: "Yaselle AI", tr: "Yaselle AI" },
+  chatLabel: { en: "AI", tr: "AI" },
   chatHello: {
     en: "Hello, I’m Yaselle AI. I can help with a piece, a size, or an order.",
     tr: "Merhaba, ben Yaselle AI. Bir parça, beden veya sipariş konusunda yardımcı olabilirim.",
