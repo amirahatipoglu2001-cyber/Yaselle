@@ -72,8 +72,28 @@ export const copy = {
   },
   email: { en: "E-mail address", tr: "E-posta adresi" },
   join: { en: "Join", tr: "Katıl" },
-  letterThanks: { en: "You’re on the list.", tr: "Listeniz alındı." },
+  letterThanks: {
+    en: "Your mail app will open so Amira can add you. This site does not send the letter.",
+    tr: "E-posta uygulamanız açılır; Amira sizi ekleyebilir. Bu site mektubu göndermez.",
+  },
   letterError: { en: "Enter a complete email.", tr: "Eksiksiz bir e-posta girin." },
+  openMail: { en: "Open mail to Amira", tr: "Amira’ya e-posta aç" },
+  mailOpensHint: {
+    en: "Your mail app will open with a note for Amira. This page does not send it.",
+    tr: "E-posta uygulamanız Amira için bir not açar. Bu sayfa göndermez.",
+  },
+  yourName: { en: "Your name", tr: "Adınız" },
+  message: { en: "Message", tr: "Mesaj" },
+  writePerson: { en: "Write to a person", tr: "Bir insana yaz" },
+  writeOwner: { en: "Write to Amira", tr: "Amira’ya yaz" },
+  customThanksTitle: {
+    en: "Open the note in your mail app.",
+    tr: "Notu e-posta uygulamanızda açın.",
+  },
+  customThanksBody: {
+    en: "We’ll read measurements from the message you send. This page does not deliver the request, and we won’t invent a delivery date here.",
+    tr: "Ölçü notunu gönderdiğiniz iletiden okuruz. Bu sayfa talebi iletmez; teslim tarihi şimdi uydurulmaz.",
+  },
   footerCare: { en: "Client care", tr: "Müşteri hizmetleri" },
   footerShop: { en: "Shopping", tr: "Alışveriş" },
   footerAbout: { en: "About Yaselle", tr: "Yaselle hakkında" },
@@ -140,8 +160,8 @@ export const copy = {
   hidePassword: { en: "Hide password", tr: "Şifreyi gizle" },
   forgot: { en: "Reset password", tr: "Şifreyi sıfırla" },
   resetSent: {
-    en: "If an account exists, a reset note is waiting.",
-    tr: "Hesap varsa sıfırlama notu hazırlanır.",
+    en: "Accounts live on this device — no reset mail is sent. Write to Amira if you need help.",
+    tr: "Hesaplar bu cihazda tutulur; sıfırlama postası gönderilmez. Yardım için Amira’ya yazın.",
   },
   authError: {
     en: "We couldn’t sign you in with those details.",
@@ -158,8 +178,17 @@ export const copy = {
   chatPrivacy: { en: "Privacy", tr: "Gizlilik" },
   chatPlaceholder: { en: "Ask about a piece or a size", tr: "Bir parça veya beden sorun" },
   chatHuman: {
-    en: "I don’t invent stock, prices or delivery dates. A client-care note is the surest next step.",
-    tr: "Stok, fiyat veya teslim tarihi uydurmam. En doğru adım müşteri hizmetleridir.",
+    en: "I don’t invent stock, prices or delivery dates. Write to Amira — a person reads it.",
+    tr: "Stok, fiyat veya teslim tarihi uydurmam. Amira’ya yazın — bir insan okur.",
+  },
+  chatSupport: { en: "Yaselle AI chat", tr: "Yaselle AI sohbet" },
+  shopIntro: {
+    en: "The full house — modest, evening, and the pieces in between.",
+    tr: "Tüm ev — tesettür, abiye ve aradaki parçalar.",
+  },
+  tesetturIntro: {
+    en: "Covered lines with room to move — abayas, tunics, sets.",
+    tr: "Hareket eden örtülü çizgiler — abaya, tunik, takım.",
   },
   notFoundTitle: { en: "This page has left the collection.", tr: "Bu sayfa koleksiyonda yok." },
   notFoundBody: {
@@ -170,8 +199,8 @@ export const copy = {
   retry: { en: "Try again", tr: "Yeniden dene" },
   errorTitle: { en: "Something stalled.", tr: "Bir şey takıldı." },
   errorBody: {
-    en: "Refresh, or write to client care if it continues.",
-    tr: "Yenileyin; sürerse müşteri hizmetlerine yazın.",
+    en: "Refresh, or write to Amira if it continues.",
+    tr: "Yenileyin; sürerse Amira’ya yazın.",
   },
   searchPlaceholder: { en: "Search Yaselle", tr: "Yaselle’de ara" },
   recentSearches: { en: "Recent searches", tr: "Son aramalar" },

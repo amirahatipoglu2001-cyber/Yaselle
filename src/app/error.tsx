@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { OwnerMailLink } from "@/components/owner-mail-link";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 
@@ -15,6 +16,18 @@ export default function ErrorPage({
     <main className="mx-auto max-w-xl px-5 py-24">
       <h1 className="font-display text-4xl">{t(locale, "errorTitle")}</h1>
       <p className="mt-4 text-muted-foreground">{t(locale, "errorBody")}</p>
+      <p className="mt-2 text-sm">
+        <OwnerMailLink
+          subject={locale === "tr" ? "Yaselle — bir şey takıldı" : "Yaselle — something stalled"}
+          body={
+            locale === "tr"
+              ? "Sitede bir hata sürüyor.\n"
+              : "Something stalled on the site.\n"
+          }
+        >
+          {t(locale, "writeOwner")}
+        </OwnerMailLink>
+      </p>
       <Button className="mt-6 rounded-sm" onClick={reset}>
         {t(locale, "retry")}
       </Button>

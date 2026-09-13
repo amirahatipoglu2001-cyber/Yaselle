@@ -30,6 +30,13 @@ export function ProductListing({
   const { locale } = useStore();
   const heading =
     categoryTree.find((item) => item.id === category)?.label[locale] ?? title;
+  const blurb =
+    intro ??
+    (category === "tesettur"
+      ? t(locale, "tesetturIntro")
+      : category
+        ? undefined
+        : t(locale, "shopIntro"));
   const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -160,7 +167,7 @@ export function ProductListing({
         {list.length} {t(locale, "productsCount")}
       </p>
       <h1 className="font-display mt-2 text-4xl sm:text-5xl">{heading}</h1>
-      {intro ? <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">{intro}</p> : null}
+      {blurb ? <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">{blurb}</p> : null}
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-2">

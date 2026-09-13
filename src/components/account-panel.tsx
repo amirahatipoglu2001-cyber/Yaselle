@@ -13,6 +13,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { t } from "@/content/i18n";
+import { accountHelpDraft, openOwnerMail } from "@/lib/mail";
 import { useStore } from "@/lib/store";
 
 export function AccountPanel() {
@@ -159,6 +160,16 @@ export function AccountPanel() {
                 onClick={() => requestReset()}
               >
                 {t(locale, "forgot")}
+              </button>
+              <button
+                type="button"
+                className="block text-xs underline"
+                onClick={() => {
+                  const draft = accountHelpDraft(locale, email.trim() || undefined);
+                  openOwnerMail(draft.subject, draft.body);
+                }}
+              >
+                {t(locale, "writeOwner")}
               </button>
             </form>
           )}

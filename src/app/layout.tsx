@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { ChatWidget } from "@/components/chat-widget";
+import { DocumentLocale } from "@/components/document-locale";
 import { RegionGate } from "@/components/region-gate";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { owner } from "@/content/profile";
 import { StoreProvider } from "@/lib/store";
 import "./globals.css";
 
@@ -30,22 +32,18 @@ export const metadata: Metadata = {
   },
   description:
     "Yaselle AI — refined women’s fashion, modest edits, and a human shopping advisor.",
+  authors: [{ name: owner.name, url: `mailto:${owner.email}` }],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="tr"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <StoreProvider>
-          <a
-            href="#content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
-          >
-            Skip to content
-          </a>
+          <DocumentLocale />
           <RegionGate />
           <SiteHeader />
           <div id="content" className="flex flex-1 flex-col">

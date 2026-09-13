@@ -62,7 +62,9 @@ export default function FavoritesPage() {
             <li key={collection.id} className="border-t border-border pt-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h3 className="text-lg">{collection.name}</h3>
+                  <h3 className="text-lg">
+                    {collection.id === "saved" ? t(locale, "saved") : collection.name}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
                     {collection.productIds.length} {t(locale, "productsCount")}
                   </p>

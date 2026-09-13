@@ -18,12 +18,7 @@ export default async function CategoryPage({ params }: Props) {
     <Suspense fallback={<div className="p-10">…</div>}>
       <ProductListing
         category={category}
-          title={meta.label.en}
-        intro={
-          category === "tesettur"
-            ? "Covered lines with room to move — abayas, tunics, sets."
-            : undefined
-        }
+        title={meta.label.en}
       />
     </Suspense>
   );

@@ -95,7 +95,6 @@ type StoreValue = {
   mergeOffer: boolean;
   mergeFavorites: () => void;
   dismissMerge: () => void;
-  newsletterJoin: (email: string) => boolean;
 };
 
 const StoreContext = createContext<StoreValue | null>(null);
@@ -202,7 +201,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       }
       return { ...current, cart: [...current.cart, line] };
     });
-    setPanel("cart");
+    // Open after the originating click finishes so the sheet is not
+    // immediately dismissed as an outside pointer event.
+    window.setTimeout(() => setPanel("cart"), 0);
     return { ok: true };
   }, []);
 
@@ -352,10 +353,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setMergeOffer(false);
   }, [guestSnapshot]);
 
-  const newsletterJoin = useCallback((email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  }, []);
-
   const cartCount = state.cart.reduce((sum, line) => sum + line.quantity, 0);
 
   const value = useMemo<StoreValue>(
@@ -390,7 +387,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       mergeOffer,
       mergeFavorites,
       dismissMerge: () => setMergeOffer(false),
-      newsletterJoin,
     }),
     [
       hydrated,
@@ -421,7 +417,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       requestReset,
       mergeOffer,
       mergeFavorites,
-      newsletterJoin,
     ],
   );
 

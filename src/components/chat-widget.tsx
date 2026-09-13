@@ -7,33 +7,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { products } from "@/content/catalog";
 import { t } from "@/content/i18n";
+import { owner } from "@/content/profile";
+import { chatHandoffDraft, isValidEmail, openOwnerMail } from "@/lib/mail";
 import { useStore } from "@/lib/store";
 
 type Message = { from: "bot" | "you"; text: string };
 
 function reply(locale: "en" | "tr", text: string) {
   const q = text.toLowerCase();
+  const wantsSize = q.includes("beden") || q.includes("size") || q.includes("ölçü");
+  const wantsShip =
+    q.includes("kargo") ||
+    q.includes("teslim") ||
+    q.includes("ship") ||
+    q.includes("deliver");
   const found = products.find(
     (product) =>
       product.name.en.toLowerCase().includes(q) ||
       product.name.tr.toLowerCase().includes(q) ||
       product.subcategory.includes(q),
   );
-  if (found) {
+  if (found && !wantsSize && !wantsShip) {
     return locale === "tr"
       ? `${found.name.tr} için ürün sayfasına bakın — stok ve fiyat orada, ben uydurmam. /product/${found.slug}`
       : `See ${found.name.en} on its product page for live stock and price. I won’t invent either. /product/${found.slug}`;
   }
-  if (q.includes("beden") || q.includes("size") || q.includes("ölçü")) {
-    return locale === "tr"
-      ? "Beden tablosu /help/size-guide sayfasında. Emin değilseniz özel dikim /custom-order."
-      : "The size guide is at /help/size-guide. Unsure? Start a custom order at /custom-order.";
+  const parts: string[] = [];
+  if (wantsSize) {
+    parts.push(
+      locale === "tr"
+        ? "Beden tablosu /help/size-guide sayfasında. Emin değilseniz özel dikim /custom-order."
+        : "The size guide is at /help/size-guide. Unsure? Start a custom order at /custom-order.",
+    );
   }
-  if (q.includes("kargo") || q.includes("teslim") || q.includes("ship") || q.includes("deliver")) {
-    return locale === "tr"
-      ? "Kargo koşulları /help/shipping sayfasında. Tarih uydurmam — güncel süre orada."
-      : "Shipping notes live at /help/shipping. I don’t invent dates.";
+  if (wantsShip) {
+    parts.push(
+      locale === "tr"
+        ? "Kargo koşulları /help/shipping sayfasında. Tarih uydurmam — güncel süre orada."
+        : "Shipping notes live at /help/shipping. I don’t invent dates.",
+    );
   }
+  if (parts.length > 0) return parts.join(" ");
   if (q.includes("iade") || q.includes("return")) {
     return locale === "tr"
       ? "İade koşulları /help/returns. Hazır giyimde 14 gün; özel dikim ölçü notuna bağlı."
@@ -46,12 +60,44 @@ function reply(locale: "en" | "tr", text: string) {
   }
   if (q.includes("sipariş") || q.includes("order")) {
     return locale === "tr"
-      ? "Sipariş için hesabınızdan veya /help/contact üzerinden insan desteğine yazın. Durumu uydurmam."
-      : "For an order, write via /help/contact. I won’t invent a status.";
+      ? `Sipariş için ${owner.email} adresine yazın veya /help/contact. Durumu uydurmam.`
+      : `For an order, write to ${owner.email} or /help/contact. I won’t invent a status.`;
   }
   return locale === "tr"
-    ? "Bunu doğrulayamıyorum. Stok, fiyat veya teslim tarihi uydurmam — /help/contact üzerinden insan desteği."
-    : "I can’t verify that. I don’t invent stock, price or dates — write via /help/contact.";
+    ? `Bunu doğrulayamıyorum. Stok, fiyat veya teslim tarihi uydurmam — ${owner.email} veya /help/contact.`
+    : `I can’t verify that. I don’t invent stock, price or dates — write ${owner.email} or /help/contact.`;
+}
+
+function ChatText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\s+)/).map((part, index) => {
+        const trimmed = part.replace(/[.,;:!?]+$/, "");
+        const mark = part.slice(trimmed.length);
+        if (trimmed.startsWith("/")) {
+          return (
+            <span key={index}>
+              <Link href={trimmed} className="underline">
+                {trimmed}
+              </Link>
+              {mark}
+            </span>
+          );
+        }
+        if (isValidEmail(trimmed)) {
+          return (
+            <span key={index}>
+              <a href={`mailto:${trimmed}`} className="underline">
+                {trimmed}
+              </a>
+              {mark}
+            </span>
+          );
+        }
+        return <span key={index}>{part}</span>;
+      })}
+    </>
+  );
 }
 
 export function ChatWidget() {
@@ -88,6 +134,14 @@ export function ChatWidget() {
     }, 400);
   }
 
+  function writeToPerson() {
+    const transcript = thread
+      .map((message) => `${message.from === "you" ? "You" : "Yaselle AI"}: ${message.text}`)
+      .join("\n");
+    const draft = chatHandoffDraft(locale, transcript);
+    openOwnerMail(draft.subject, draft.body);
+  }
+
   return (
     <div id="yaselle-chat" className="fixed right-4 bottom-4 z-40">
       {open ? (
@@ -109,18 +163,20 @@ export function ChatWidget() {
                 key={`${message.from}-${index}`}
                 className={message.from === "you" ? "text-right" : "text-left text-muted-foreground"}
               >
-                {message.text.split(" ").map((word, wordIndex) =>
-                  word.startsWith("/") ? (
-                    <Link key={wordIndex} href={word} className="underline">
-                      {word}{" "}
-                    </Link>
-                  ) : (
-                    <span key={wordIndex}>{word} </span>
-                  ),
-                )}
+                <ChatText text={message.text} />
               </p>
             ))}
             {pending ? <p className="text-xs text-muted-foreground">…</p> : null}
+          </div>
+          <div className="border-t border-border px-3 py-2">
+            <p className="text-[11px] text-muted-foreground">{t(locale, "chatHuman")}</p>
+            <button
+              type="button"
+              className="mt-1 text-xs underline underline-offset-4"
+              onClick={writeToPerson}
+            >
+              {t(locale, "writePerson")}
+            </button>
           </div>
           <form
             className="flex gap-2 border-t border-border p-2"

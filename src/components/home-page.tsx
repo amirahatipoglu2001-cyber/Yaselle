@@ -41,7 +41,10 @@ export function HomePage() {
             </Link>
             <Link
               href="/about"
-              className={cn(buttonVariants({ variant: "outline" }), "rounded-sm border-[#F8F6F2] text-[#F8F6F2]")}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "rounded-sm border-[#F8F6F2] bg-transparent text-[#F8F6F2] hover:bg-[#F8F6F2]/15 hover:text-[#F8F6F2]",
+              )}
             >
               {t(locale, "discoverStory")}
             </Link>

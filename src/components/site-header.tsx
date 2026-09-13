@@ -60,7 +60,7 @@ export function SiteHeader() {
 
           <Link
             href="/"
-            className="font-display text-lg tracking-[0.28em] sm:text-xl"
+            className="font-display whitespace-nowrap text-base tracking-[0.18em] sm:text-xl sm:tracking-[0.28em]"
           >
             YASELLE AI
           </Link>

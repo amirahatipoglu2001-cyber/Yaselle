@@ -11,13 +11,13 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { categoryTree, menuExtras } from "@/content/catalog";
 import { t } from "@/content/i18n";
+import { languageMeta } from "@/content/regions";
 import { useStore } from "@/lib/store";
 
 export function MenuDrawer() {
-  const { locale, panel, setPanel } = useStore();
+  const { locale, country, panel, setPanel, setLocalePrefs } = useStore();
   const router = useRouter();
   const open = panel === "menu";
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -69,43 +69,37 @@ export function MenuDrawer() {
               }
             }}
           />
-          <Accordion className="mt-6">
-            <AccordionItem value="categories">
-              <AccordionTrigger className="rounded-none py-3 text-sm tracking-[0.08em] uppercase">
-                {t(locale, "categories")}
-              </AccordionTrigger>
-              <AccordionContent>
-                <ul className="space-y-4 pb-2">
-                  {categoryTree.map((category) => (
-                    <li key={category.id}>
-                      <Link
-                        href={category.href}
-                        className="font-medium"
-                        onClick={() => setPanel(null)}
-                      >
-                        {category.label[locale]}
-                      </Link>
-                      {category.children.length > 0 ? (
-                        <ul className="mt-2 space-y-1 pl-3 text-sm text-muted-foreground">
-                          {category.children.map((child) => (
-                            <li key={child.id}>
-                              <Link
-                                href={`${category.href}?sub=${child.id}`}
-                                onClick={() => setPanel(null)}
-                              >
-                                {child.label[locale]}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          <nav className="mt-2 flex flex-col">
+          <p className="mt-6 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            {t(locale, "categories")}
+          </p>
+          <ul className="mt-3 space-y-4">
+            {categoryTree.map((category) => (
+              <li key={category.id}>
+                <Link
+                  href={category.href}
+                  className="font-medium"
+                  onClick={() => setPanel(null)}
+                >
+                  {category.label[locale]}
+                </Link>
+                {category.children.length > 0 ? (
+                  <ul className="mt-2 space-y-1 pl-3 text-sm text-muted-foreground">
+                    {category.children.map((child) => (
+                      <li key={child.id}>
+                        <Link
+                          href={`${category.href}?sub=${child.id}`}
+                          onClick={() => setPanel(null)}
+                        >
+                          {child.label[locale]}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+          <nav className="mt-6 flex flex-col">
             {menuExtras.map((item) => (
               <Link
                 key={item.href}
@@ -133,8 +127,23 @@ export function MenuDrawer() {
                 window.dispatchEvent(new Event("yaselle-open-chat"));
               }}
             >
-              Yaselle AI Chatbot Destek
+              {t(locale, "chatSupport")}
             </button>
+            <p className="mt-8 text-xs text-muted-foreground">
+              {country.flag} {country.name[locale]} · {country.currency}
+            </p>
+            <div className="mt-2 flex gap-2">
+              {country.languages.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  className="min-h-11 border border-border px-3 text-sm"
+                  onClick={() => setLocalePrefs({ language: id })}
+                >
+                  {languageMeta[id].flag} {languageMeta[id].label[locale]}
+                </button>
+              ))}
+            </div>
           </nav>
         </div>
       </SheetContent>
