@@ -43,8 +43,8 @@ export function MenuDrawer() {
         showCloseButton={false}
       >
         <SheetHeader className="flex-row items-center justify-between border-b border-border p-4">
-          <SheetTitle className="font-display tracking-[0.2em]">
-            YASELLE
+          <SheetTitle className="font-display tracking-[0.16em] uppercase">
+            {t(locale, "brand")}
           </SheetTitle>
           <button
             ref={closeRef}

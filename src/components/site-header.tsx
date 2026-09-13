@@ -60,9 +60,9 @@ export function SiteHeader() {
 
           <Link
             href="/"
-            className="font-display whitespace-nowrap text-base tracking-[0.18em] sm:text-xl sm:tracking-[0.28em]"
+            className="font-display whitespace-nowrap text-sm tracking-[0.14em] uppercase sm:text-xl sm:tracking-[0.22em]"
           >
-            YASELLE
+            {t(locale, "brand")}
           </Link>
 
           <div className="flex items-center justify-end gap-0.5">
