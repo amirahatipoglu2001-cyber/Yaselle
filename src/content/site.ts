@@ -1,10 +1,10 @@
 /** Canonical public house — import `site` / `siteUrl`; do not hardcode the domain. */
 export const site = {
-  name: "Yaselle",
+  name: "Yaselle AI",
   domain: "yasellefashion.com",
   url: "https://yasellefashion.com",
   description:
-    "Yaselle — refined women’s fashion, modest edits, and a human shopping advisor.",
+    "Yaselle AI — refined women’s fashion, modest edits, and a human shopping advisor.",
 } as const;
 
 export type Site = typeof site;

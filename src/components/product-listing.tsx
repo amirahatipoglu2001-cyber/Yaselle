@@ -28,8 +28,9 @@ export function ProductListing({
   intro?: string;
 }) {
   const { locale } = useStore();
-  const heading =
-    categoryTree.find((item) => item.id === category)?.label[locale] ?? title;
+  const categoryMeta = categoryTree.find((item) => item.id === category);
+  const heading = categoryMeta?.label[locale] ?? title;
+  const children = categoryMeta?.children ?? [];
   const blurb =
     intro ??
     (category === "tesettur"
@@ -123,7 +124,7 @@ export function ProductListing({
       <fieldset>
         <legend className="text-[11px] tracking-[0.16em] uppercase">{t(locale, "subcategory")}</legend>
         <div className="mt-2 flex flex-col gap-2">
-          {(categoryTree.find((item) => item.id === category)?.children ?? []).map((child) => (
+          {children.map((child) => (
             <label key={child.id} className="flex items-center gap-2">
               <Checkbox
                 checked={sub === child.id}
@@ -171,9 +172,9 @@ export function ProductListing({
       <h1 className="font-display mt-2 text-4xl sm:text-5xl">{heading}</h1>
       {blurb ? <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">{blurb}</p> : null}
 
-      {(categoryTree.find((item) => item.id === category)?.children ?? []).length > 0 ? (
+      {children.length > 0 ? (
         <div className="mt-5 flex flex-wrap gap-2">
-          {(categoryTree.find((item) => item.id === category)?.children ?? []).map((child) => (
+          {children.map((child) => (
             <button
               key={child.id}
               type="button"

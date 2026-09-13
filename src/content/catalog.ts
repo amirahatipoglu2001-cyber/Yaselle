@@ -464,7 +464,7 @@ export const products: Product[] = [
     stock: { XS: 6, S: 7, M: 6, L: 5, XL: 3 },
     materials: ["acetate"],
     collection: "essentials",
-    images: [media.skirtOpen, media.lookbookOpen, media.dress],
+    images: [media.skirtOpen, media.dress, media.eveningOpen],
     tags: ["bestseller"],
     soldCount: 99,
     createdAt: "2026-03-02",
