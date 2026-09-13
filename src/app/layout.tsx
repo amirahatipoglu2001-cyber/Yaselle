@@ -6,6 +6,7 @@ import { RegionGate } from "@/components/region-gate";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { owner } from "@/content/profile";
+import { site } from "@/content/site";
 import { StoreProvider } from "@/lib/store";
 import "./globals.css";
 
@@ -26,13 +27,17 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
-    default: "Yaselle AI",
-    template: "%s — Yaselle AI",
+    default: site.name,
+    template: `%s — ${site.name}`,
   },
   description:
     "Yaselle AI — refined women’s fashion, modest edits, and a human shopping advisor.",
   authors: [{ name: owner.name, url: `mailto:${owner.email}` }],
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
