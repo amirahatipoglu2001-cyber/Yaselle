@@ -108,28 +108,6 @@ export const menuExtras = [
   { href: "/help/satisfaction", label: { en: "Client care", tr: "Müşteri Memnuniyeti" } },
 ] as const;
 
-/** Homepage strip — exactly these three, no Tesettür / Elbiseler. Women only. */
-export const quickCategories = [
-  {
-    id: "bestseller",
-    href: "/shop?sort=bestseller",
-    image: media.dress,
-    label: { en: "Bestseller", tr: "Bestseller" },
-  },
-  {
-    id: "new-season",
-    href: "/shop?sort=newest",
-    image: media.eveningOpen,
-    label: { en: "New season", tr: "Yeni sezon" },
-  },
-  {
-    id: "sale",
-    href: "/shop?sort=sale",
-    image: media.blouse,
-    label: { en: "Discounted products", tr: "İndirimli ürünler" },
-  },
-] as const;
-
 const sizes = ["XS", "S", "M", "L", "XL"];
 
 export const products: Product[] = [
