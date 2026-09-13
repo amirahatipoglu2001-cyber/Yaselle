@@ -171,6 +171,25 @@ export function ProductListing({
       <h1 className="font-display mt-2 text-4xl sm:text-5xl">{heading}</h1>
       {blurb ? <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">{blurb}</p> : null}
 
+      {(categoryTree.find((item) => item.id === category)?.children ?? []).length > 0 ? (
+        <div className="mt-5 flex flex-wrap gap-2">
+          {(categoryTree.find((item) => item.id === category)?.children ?? []).map((child) => (
+            <button
+              key={child.id}
+              type="button"
+              className={
+                sub === child.id
+                  ? "min-h-9 border border-primary bg-primary px-3 text-xs text-primary-foreground"
+                  : "min-h-9 border border-border px-3 text-xs"
+              }
+              onClick={() => setQuery({ sub: sub === child.id ? undefined : child.id })}
+            >
+              {child.label[locale]}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-2">
           <Button className="rounded-sm md:hidden" variant="outline" onClick={() => setFilterOpen(true)}>
