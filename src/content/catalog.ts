@@ -108,17 +108,6 @@ export const menuExtras = [
   { href: "/help/satisfaction", label: { en: "Client care", tr: "Müşteri Memnuniyeti" } },
 ] as const;
 
-export const quickCategories = [
-  { href: "/shop/yeni-koleksiyon", image: media.hijabLace, label: { en: "New collection", tr: "Yeni Koleksiyon" } },
-  { href: "/shop/tesettur", image: media.abaya, label: { en: "Modest wear", tr: "Tesettür" } },
-  { href: "/shop/giyim?sub=elbise", image: media.dress, label: { en: "Dresses", tr: "Elbiseler" } },
-  { href: "/shop/canta-aksesuar", image: media.bag, label: { en: "Bags", tr: "Çantalar" } },
-  { href: "/shop/ayakkabilar", image: media.shoes, label: { en: "Shoes", tr: "Ayakkabılar" } },
-  { href: "/shop/giyim?sub=abiye", image: media.abiye, label: { en: "Evening", tr: "Abiye" } },
-  { href: "/shop/tesettur?sub=alt-ust-takim", image: media.set, label: { en: "Sets", tr: "Alt-Üst Takımlar" } },
-  { href: "/shop/bakim-guzellik", image: media.perfume, label: { en: "Care & beauty", tr: "Bakım & Güzellik" } },
-] as const;
-
 const sizes = ["XS", "S", "M", "L", "XL"];
 
 export const products: Product[] = [
@@ -195,7 +184,7 @@ export const products: Product[] = [
     stock: { XS: 3, S: 4, M: 5, L: 3, XL: 2 },
     materials: ["wool"],
     collection: "essentials",
-    images: [media.jacket, media.beigeCoat, media.abayaAlt],
+    images: [media.jacket, media.lookbook, media.abayaAlt],
     tags: ["modest", "custom", "bestseller"],
     soldCount: 141,
     createdAt: "2026-07-02",
@@ -324,7 +313,7 @@ export const products: Product[] = [
     stock: { XS: 2, S: 3, M: 4, L: 2, XL: 1 },
     materials: ["silk"],
     collection: "new",
-    images: [media.dress, media.hijabLace, media.abiye],
+    images: [media.dress, media.dressAlt, media.eveningOpen],
     tags: ["new", "custom"],
     soldCount: 61,
     createdAt: "2026-09-04",
@@ -374,8 +363,8 @@ export const products: Product[] = [
     stock: { XS: 9, S: 12, M: 10, L: 8, XL: 6 },
     materials: ["cotton"],
     collection: "essentials",
-    images: [media.shirt, media.blouse, media.jacket],
-    tags: ["sale"],
+    images: [media.shirt, media.blouse, media.shirtAlt],
+    tags: ["sale", "bestseller"],
     soldCount: 170,
     createdAt: "2026-02-11",
     related: ["blouse-cream", "jacket-atelier"],
@@ -392,16 +381,18 @@ export const products: Product[] = [
     care: { en: "Dry clean or hand wash cold.", tr: "Kuru temizleme veya soğuk elde yıkama." },
     category: "giyim",
     subcategory: "bluz",
+    alsoIn: ["yeni-koleksiyon"],
     priceTry: 5690,
+    compareAtTry: 6490,
     colors: [{ id: "cream", name: { en: "Cream", tr: "Krem" }, hex: "#EDE4D4" }],
     sizes,
     stock: { XS: 4, S: 6, M: 5, L: 4, XL: 2 },
     materials: ["silk"],
-    collection: "essentials",
-    images: [media.blouse, media.shirt, media.dress],
-    tags: [],
+    collection: "new",
+    images: [media.blouse, media.shirt, media.linen],
+    tags: ["new", "sale"],
     soldCount: 73,
-    createdAt: "2026-01-20",
+    createdAt: "2026-09-06",
     related: ["shirt-poplin", "skirt-pleat"],
     completeTheLook: ["skirt-pleat", "bag-espresso"],
   },
@@ -422,8 +413,8 @@ export const products: Product[] = [
     stock: { XS: 6, S: 7, M: 6, L: 5, XL: 3 },
     materials: ["acetate"],
     collection: "essentials",
-    images: [media.hijabEditorial, media.skirt, media.shirt],
-    tags: [],
+    images: [media.lookbookOpen, media.dress, media.shirt],
+    tags: ["bestseller"],
     soldCount: 99,
     createdAt: "2026-03-02",
     related: ["shirt-poplin", "blouse-cream"],
@@ -519,7 +510,7 @@ export const products: Product[] = [
     stock: { XS: 5, S: 6, M: 6, L: 5, XL: 3 },
     materials: ["linen"],
     collection: "new",
-    images: [media.linen, media.tunic, media.beach],
+    images: [media.linen, media.coatOpen, media.beach],
     tags: ["new"],
     soldCount: 44,
     createdAt: "2026-08-20",
@@ -551,6 +542,22 @@ export const products: Product[] = [
     completeTheLook: [],
   },
 ];
+
+export function isNewCollection(product: Product) {
+  return (
+    product.tags.includes("new") ||
+    product.collection === "new" ||
+    Boolean(product.alsoIn?.includes("yeni-koleksiyon"))
+  );
+}
+
+export function isBestsellerOrSale(product: Product) {
+  return (
+    product.tags.includes("bestseller") ||
+    product.tags.includes("sale") ||
+    Boolean(product.compareAtTry)
+  );
+}
 
 export function getProduct(slug: string) {
   return products.find((product) => product.slug === slug);

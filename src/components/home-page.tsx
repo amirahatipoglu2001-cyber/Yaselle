@@ -4,16 +4,61 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { buttonVariants } from "@/components/ui/button";
-import { products, quickCategories } from "@/content/catalog";
+import {
+  isBestsellerOrSale,
+  isNewCollection,
+  products,
+  type Product,
+} from "@/content/catalog";
 import { media } from "@/content/media";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
+function ProductBand({
+  title,
+  href,
+  linkLabel,
+  items,
+  empty,
+}: {
+  title: string;
+  href: string;
+  linkLabel: string;
+  items: Product[];
+  empty: string;
+}) {
+  return (
+    <section className="reveal mx-auto max-w-6xl px-5 py-12 sm:px-8">
+      <div className="flex items-end justify-between gap-4 border-b border-border pb-4">
+        <h2 className="font-display text-4xl leading-none">{title}</h2>
+        <Link href={href} className="shrink-0 text-sm underline underline-offset-4">
+          {linkLabel}
+        </Link>
+      </div>
+      {items.length === 0 ? (
+        <p className="mt-8 max-w-md text-sm leading-6 text-muted-foreground">{empty}</p>
+      ) : (
+        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {items.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export function HomePage() {
   const { locale } = useStore();
-  const newest = [...products].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 4);
-  const loved = [...products].sort((a, b) => b.soldCount - a.soldCount).slice(0, 4);
+  const newest = products
+    .filter(isNewCollection)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, 8);
+  const bestsellers = products
+    .filter(isBestsellerOrSale)
+    .sort((a, b) => b.soldCount - a.soldCount)
+    .slice(0, 8);
 
   return (
     <main>
@@ -52,22 +97,21 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="reveal px-5 py-10 sm:px-8">
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          {quickCategories.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="w-36 shrink-0 sm:w-40"
-            >
-              <div className="relative aspect-3/4 overflow-hidden bg-muted">
-                <Image src={item.image} alt="" fill className="object-cover" sizes="160px" />
-              </div>
-              <p className="mt-2 text-xs tracking-[0.08em] uppercase">{item.label[locale]}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <ProductBand
+        title={t(locale, "homeNewCollection")}
+        href="/shop/yeni-koleksiyon"
+        linkLabel={t(locale, "viewAllNew")}
+        items={newest}
+        empty={t(locale, "emptyHomeBand")}
+      />
+
+      <ProductBand
+        title={t(locale, "homeBestsellers")}
+        href="/shop?sort=sale"
+        linkLabel={t(locale, "viewAllBestsellers")}
+        items={bestsellers}
+        empty={t(locale, "emptyHomeBand")}
+      />
 
       <section className="reveal mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 sm:px-8 lg:grid-cols-2">
         <div className="relative aspect-4/3 overflow-hidden bg-muted">
@@ -79,20 +123,6 @@ export function HomePage() {
           <Link href="/about" className={cn(buttonVariants({ variant: "outline" }), "mt-6 rounded-sm")}>
             {t(locale, "meetYaselle")}
           </Link>
-        </div>
-      </section>
-
-      <section className="reveal mx-auto max-w-6xl px-5 py-10 sm:px-8">
-        <div className="flex items-end justify-between">
-          <h2 className="font-display text-4xl">{t(locale, "justLanded")}</h2>
-          <Link href="/shop/yeni-koleksiyon" className="text-sm underline">
-            {t(locale, "viewAllNew")}
-          </Link>
-        </div>
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {newest.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
         </div>
       </section>
 
@@ -124,15 +154,6 @@ export function HomePage() {
         <Link href="/custom-order" className={cn(buttonVariants(), "mt-8 rounded-sm")}>
           {t(locale, "startCustom")}
         </Link>
-      </section>
-
-      <section className="reveal mx-auto max-w-6xl px-5 py-16 sm:px-8">
-        <h2 className="font-display text-4xl">{t(locale, "mostLoved")}</h2>
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {loved.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
       </section>
 
       <section className="grid gap-6 border-t border-border px-5 py-12 text-center text-sm sm:grid-cols-4 sm:px-8">
