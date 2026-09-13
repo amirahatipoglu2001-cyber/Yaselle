@@ -11,7 +11,6 @@ import { MenuDrawer } from "@/components/menu-drawer";
 import { SearchPanel } from "@/components/search-panel";
 import { CartDrawer } from "@/components/cart-drawer";
 import { AccountPanel } from "@/components/account-panel";
-import { LocaleMenu } from "@/components/locale-menu";
 
 export function SiteHeader() {
   const { locale, country, cartCount, setPanel, collections } = useStore();
@@ -66,7 +65,6 @@ export function SiteHeader() {
           </Link>
 
           <div className="flex items-center justify-end gap-0.5">
-            <LocaleMenu />
             <button
               type="button"
               className="inline-flex size-11 items-center justify-center"
