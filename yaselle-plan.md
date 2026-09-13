@@ -19,7 +19,7 @@ Louis Vuitton benzeri güçlü editoryal boşluklar, premium tipografi ve sakin 
 - Vurgu: espresso kahvesi (`#3C2418`).
 - İndirim ve uyarı: sadece gerektiğinde koyu kırmızı.
 - Tipografi: başlıklarda zarif serif, gövdede yüksek okunurluklu modern sans-serif.
-- Fotoğraf: doğal ışık, tam boy görünüm, kumaş dokusu, temiz arka plan.
+- Photographs: remote Unsplash / Pexels URLs, plus SVG wordmark. No local product photography.
 - Arayüz: bol nefes alanı, ince ayraçlar, küçük ikonlar, az yuvarlatılmış köşeler.
 
 ### Hareket ilkeleri
