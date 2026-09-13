@@ -3,7 +3,16 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { countriesInRegion, languageMeta, regionFromCountryName, regions } from "@/content/regions";
+import {
+  countriesInRegion,
+  countryByCode,
+  languageLabel,
+  languageMeta,
+  regionFromCountryName,
+  regions,
+  searchCountries,
+  shopLanguages,
+} from "@/content/regions";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -15,22 +24,11 @@ export function RegionGate() {
   const [countryCode, setCountryCode] = useState("TR");
   const [language, setLanguage] = useState<LanguageId>("tr");
   const [query, setQuery] = useState("");
-  const [step, setStep] = useState<"region" | "country" | "language">("region");
+  const [step, setStep] = useState<"region" | "country">("region");
   const [locationNote, setLocationNote] = useState<"idle" | "denied" | "hint">("hint");
 
-  const list = useMemo(() => {
-    const countries = countriesInRegion(region);
-    const q = query.trim().toLowerCase();
-    if (!q) return countries;
-    return countries.filter(
-      (country) =>
-        country.name.en.toLowerCase().includes(q) ||
-        country.name.tr.toLowerCase().includes(q) ||
-        country.code.toLowerCase().includes(q),
-    );
-  }, [query, region]);
-
-  const selected = list.find((country) => country.code === countryCode) ?? countriesInRegion(region)[0];
+  const list = useMemo(() => searchCountries(query, region), [query, region]);
+  const selected = countryByCode(countryCode) ?? countriesInRegion(region)[0];
 
   async function useLocation() {
     if (!navigator.geolocation) {
@@ -53,8 +51,9 @@ export function RegionGate() {
           if (match) {
             setRegion(match.region);
             setCountryCode(match.code);
-            setLanguage(match.languages[0]);
-            setStep("language");
+            setLanguage(match.code === "TR" ? "tr" : match.languages[0]);
+            setQuery("");
+            setStep("country");
             setLocationNote("hint");
           } else {
             setLocationNote("denied");
@@ -99,7 +98,8 @@ export function RegionGate() {
                     setRegion(item.id);
                     const first = countriesInRegion(item.id)[0];
                     setCountryCode(first.code);
-                    setLanguage(first.languages[0]);
+                    setLanguage(first.code === "TR" ? "tr" : first.languages[0]);
+                    setQuery("");
                     setStep("country");
                   }}
                   className={cn(
@@ -121,7 +121,7 @@ export function RegionGate() {
           </>
         ) : null}
 
-        {step === "country" ? (
+        {step === "country" && selected ? (
           <>
             <h1 id="region-title" className="mt-8 text-sm tracking-[0.22em] uppercase">
               {t(locale, "selectCountry")}
@@ -145,8 +145,8 @@ export function RegionGate() {
                     type="button"
                     onClick={() => {
                       setCountryCode(country.code);
-                      setLanguage(country.languages[0]);
-                      setStep("language");
+                      setRegion(country.region);
+                      setLanguage(country.code === "TR" ? "tr" : language);
                     }}
                     className={cn(
                       "flex min-h-11 w-full items-center gap-3 border px-3 text-left text-sm",
@@ -161,29 +161,15 @@ export function RegionGate() {
                 </li>
               ))}
             </ul>
-            <Button className="mt-4 rounded-sm" variant="ghost" onClick={() => setStep("region")}>
-              {t(locale, "change")}
-            </Button>
-          </>
-        ) : null}
 
-        {step === "language" && selected ? (
-          <>
-            <h1 id="region-title" className="mt-8 text-sm tracking-[0.22em] uppercase">
+            <h2 className="mt-8 text-sm tracking-[0.22em] uppercase">
               {t(locale, "selectLanguage")}
-            </h1>
-            <p className="mt-4 text-sm">
-              {t(locale, "country")}: {selected.flag} {selected.name[locale]}{" "}
-              <button
-                className="underline underline-offset-4"
-                type="button"
-                onClick={() => setStep("country")}
-              >
-                [{t(locale, "change")}]
-              </button>
+            </h2>
+            <p className="mt-3 text-sm">
+              {t(locale, "country")}: {selected.flag} {selected.name[locale]}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {selected.languages.map((id) => (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {shopLanguages.map((id) => (
                 <button
                   key={id}
                   type="button"
@@ -193,7 +179,7 @@ export function RegionGate() {
                     language === id ? "border-primary bg-secondary" : "border-border",
                   )}
                 >
-                  {languageMeta[id].flag} {languageMeta[id].label[id === "tr" ? "tr" : "en"]}
+                  {languageMeta[id].flag} {languageLabel(id)}
                 </button>
               ))}
             </div>
@@ -204,10 +190,13 @@ export function RegionGate() {
               className="mt-8 w-full rounded-sm"
               size="lg"
               onClick={() =>
-                completeGate({ region, countryCode: selected.code, language })
+                completeGate({ region: selected.region, countryCode: selected.code, language })
               }
             >
               {t(locale, "continueShopping")}
+            </Button>
+            <Button className="mt-3 w-full rounded-sm" variant="ghost" onClick={() => setStep("region")}>
+              {t(locale, "change")}
             </Button>
           </>
         ) : null}

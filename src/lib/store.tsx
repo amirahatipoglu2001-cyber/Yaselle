@@ -151,11 +151,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!hydrated) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    document.cookie = `yaselle_lang=${state.language ?? "en"}; path=/; max-age=31536000`;
+    document.cookie = `yaselle_lang=${state.language ?? "tr"}; path=/; max-age=31536000`;
   }, [hydrated, state]);
 
   const country = countryByCode(state.countryCode ?? "TR") ?? countries[0];
-  const locale: Locale = state.language ?? "en";
+  const locale: Locale = state.language ?? (country.code === "TR" ? "tr" : "en");
   const region: RegionId = state.region ?? country.region;
 
   const completeGate = useCallback(

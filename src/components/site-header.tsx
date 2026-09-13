@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
 import { t } from "@/content/i18n";
-import { languageMeta } from "@/content/regions";
+import { languageLabel } from "@/content/regions";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { MenuDrawer } from "@/components/menu-drawer";
@@ -103,7 +103,7 @@ export function SiteHeader() {
           </div>
         </div>
         <p className="sr-only">
-          {country.flag} {country.name[locale]} · {languageMeta[locale].label[locale]}
+          {country.flag} {country.name[locale]} · {languageLabel(locale)}
         </p>
       </header>
       <MenuDrawer />

@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { categoryTree, menuExtras } from "@/content/catalog";
 import { t } from "@/content/i18n";
-import { languageMeta } from "@/content/regions";
+import { languageLabel, languageMeta, shopLanguages } from "@/content/regions";
 import { useStore } from "@/lib/store";
 
 export function MenuDrawer() {
@@ -132,15 +132,18 @@ export function MenuDrawer() {
             <p className="mt-8 text-xs text-muted-foreground">
               {country.flag} {country.name[locale]} · {country.currency}
             </p>
+            <p className="mt-4 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+              {t(locale, "selectLanguage")}
+            </p>
             <div className="mt-2 flex gap-2">
-              {country.languages.map((id) => (
+              {shopLanguages.map((id) => (
                 <button
                   key={id}
                   type="button"
                   className="min-h-11 border border-border px-3 text-sm"
                   onClick={() => setLocalePrefs({ language: id })}
                 >
-                  {languageMeta[id].flag} {languageMeta[id].label[locale]}
+                  {languageMeta[id].flag} {languageLabel(id)}
                 </button>
               ))}
             </div>
