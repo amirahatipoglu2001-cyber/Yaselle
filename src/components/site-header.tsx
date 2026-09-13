@@ -12,72 +12,14 @@ import { SearchPanel } from "@/components/search-panel";
 import { CartDrawer } from "@/components/cart-drawer";
 import { AccountPanel } from "@/components/account-panel";
 
-function LanguageMenu() {
-  const { locale, setLocalePrefs } = useStore();
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onPointer = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
-    };
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onPointer);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onPointer);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
-
-  return (
-    <div className="relative" ref={rootRef}>
-      <button
-        type="button"
-        className="inline-flex size-11 items-center justify-center"
-        aria-label={t(locale, "selectLanguage")}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        onClick={() => setOpen((value) => !value)}
-      >
-        <Globe className="size-5" aria-hidden />
-      </button>
-      {open ? (
-        <ul
-          role="menu"
-          className="absolute top-full right-0 z-50 mt-1 min-w-36 border border-border bg-background py-1 shadow-sm"
-        >
-          {shopLanguages.map((id) => (
-            <li key={id} role="none">
-              <button
-                type="button"
-                role="menuitem"
-                aria-current={id === locale ? "true" : undefined}
-                className={cn(
-                  "flex min-h-10 w-full items-center px-3 text-left text-sm hover:bg-muted",
-                  id === locale ? "bg-secondary" : "",
-                )}
-                onClick={() => {
-                  setLocalePrefs({ language: id });
-                  setOpen(false);
-                }}
-              >
-                {languageLabel(id)}
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
-  );
-}
+const WORDMARK = "YASELLE";
 
 export function SiteHeader() {
-  const { locale, country, cartCount, setPanel, collections } = useStore();
+  const { locale, country, cartCount, setPanel, setLocalePrefs, collections } =
+    useStore();
   const [scrolled, setScrolled] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
   const savedCount = collections.reduce(
     (sum, collection) => sum + collection.productIds.length,
     0,
@@ -89,6 +31,22 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!langOpen) return;
+    const onPointer = (event: PointerEvent) => {
+      if (!langRef.current?.contains(event.target as Node)) setLangOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setLangOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [langOpen]);
 
   return (
     <>
@@ -124,11 +82,46 @@ export function SiteHeader() {
             href="/"
             className="font-display whitespace-nowrap text-sm tracking-[0.14em] uppercase sm:text-xl sm:tracking-[0.22em]"
           >
-            {t(locale, "brand")}
+            {WORDMARK}
           </Link>
 
           <div className="flex items-center justify-end gap-0.5">
-            <LanguageMenu />
+            <div className="relative" ref={langRef}>
+              <button
+                type="button"
+                className="inline-flex size-11 items-center justify-center"
+                aria-label={t(locale, "selectLanguage")}
+                aria-expanded={langOpen}
+                aria-haspopup="listbox"
+                onClick={() => setLangOpen((open) => !open)}
+              >
+                <Globe className="size-5" aria-hidden />
+              </button>
+              {langOpen ? (
+                <ul
+                  role="listbox"
+                  className="absolute top-full right-0 z-50 mt-1 min-w-[8.5rem] border border-border bg-background py-1 shadow-sm"
+                >
+                  {shopLanguages.map((id) => (
+                    <li key={id} role="option" aria-selected={id === locale}>
+                      <button
+                        type="button"
+                        className={cn(
+                          "flex min-h-11 w-full items-center px-3 text-left text-sm",
+                          id === locale ? "bg-secondary" : "hover:bg-muted",
+                        )}
+                        onClick={() => {
+                          setLocalePrefs({ language: id });
+                          setLangOpen(false);
+                        }}
+                      >
+                        {languageLabel(id)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
             <button
               type="button"
               className="inline-flex size-11 items-center justify-center"
