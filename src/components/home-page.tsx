@@ -115,7 +115,6 @@ export function HomePage() {
         items={newest}
         empty={t(locale, "emptyHomeBand")}
       />
-
       <ProductBand
         title={t(locale, "homeBestsellers")}
         href="/shop?sort=bestseller"
@@ -123,7 +122,6 @@ export function HomePage() {
         items={bestsellers}
         empty={t(locale, "emptyHomeBand")}
       />
-
       <ProductBand
         title={t(locale, "homeSale")}
         href="/shop?sort=sale"
