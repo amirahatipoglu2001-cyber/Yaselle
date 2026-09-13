@@ -12,7 +12,7 @@ import { SearchPanel } from "@/components/search-panel";
 import { CartDrawer } from "@/components/cart-drawer";
 import { AccountPanel } from "@/components/account-panel";
 
-const WORDMARK = "YASELLE";
+const WORDMARK = "YASELLE AI";
 
 export function SiteHeader() {
   const { locale, country, cartCount, setPanel, setLocalePrefs, collections } =

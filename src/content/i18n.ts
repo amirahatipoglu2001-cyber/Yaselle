@@ -2,7 +2,7 @@ import type { Locale } from "@/content/catalog";
 
 export const copy = {
   skip: { en: "Skip to content", tr: "İçeriğe geç" },
-  brand: { en: "YASELLE", tr: "YASELLE" },
+  brand: { en: "Yaselle AI", tr: "Yaselle AI" },
   search: { en: "Search", tr: "Ara" },
   menu: { en: "Menu", tr: "Menü" },
   close: { en: "Close", tr: "Kapat" },
@@ -177,12 +177,12 @@ export const copy = {
   orders: { en: "Orders", tr: "Siparişler" },
   addresses: { en: "Addresses", tr: "Adresler" },
   noOrders: { en: "No orders yet.", tr: "Henüz sipariş yok." },
-  chatOpen: { en: "Open Yaselle", tr: "Yaselle sohbetini aç" },
-  chatTitle: { en: "Yaselle", tr: "Yaselle" },
-  chatLabel: { en: "Yaselle", tr: "Yaselle" },
+  chatOpen: { en: "Open Yaselle AI", tr: "Yaselle AI sohbetini aç" },
+  chatTitle: { en: "Yaselle AI", tr: "Yaselle AI" },
+  chatLabel: { en: "Yaselle AI", tr: "Yaselle AI" },
   chatHello: {
-    en: "Hello, I’m Yaselle. I can help with a piece, a size, or an order.",
-    tr: "Merhaba, ben Yaselle. Bir parça, beden veya sipariş konusunda yardımcı olabilirim.",
+    en: "Hello, I’m Yaselle AI. I can help with a piece, a size, or an order.",
+    tr: "Merhaba, ben Yaselle AI. Bir parça, beden veya sipariş konusunda yardımcı olabilirim.",
   },
   chatPrivacy: { en: "Privacy", tr: "Gizlilik" },
   chatPlaceholder: { en: "Ask about a piece or a size", tr: "Bir parça veya beden sorun" },
@@ -190,7 +190,7 @@ export const copy = {
     en: "I don’t invent stock, prices or delivery dates. Write to Amira — a person reads it.",
     tr: "Stok, fiyat veya teslim tarihi uydurmam. Amira’ya yazın — bir insan okur.",
   },
-  chatSupport: { en: "Yaselle", tr: "Yaselle" },
+  chatSupport: { en: "Yaselle AI", tr: "Yaselle AI" },
   shopIntro: {
     en: "The full house — modest, evening, and the pieces in between.",
     tr: "Tüm ev — tesettür, abiye ve aradaki parçalar.",
