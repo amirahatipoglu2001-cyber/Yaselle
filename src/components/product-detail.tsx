@@ -9,7 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { getProductById, stockFor, type Product } from "@/content/catalog";
-import { t } from "@/content/i18n";
+import { saveLabel, t } from "@/content/i18n";
 import { formatMoney } from "@/lib/money";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -23,8 +23,14 @@ export function ProductDetail({ product }: { product: Product }) {
   const [zoom, setZoom] = useState(false);
   const color = product.colors.find((item) => item.id === colorId) ?? product.colors[0];
   const remaining = size ? stockFor(product, size) : 0;
-  const look = product.completeTheLook.map(getProductById).filter(Boolean);
-  const related = product.related.map(getProductById).filter(Boolean);
+  const look = product.completeTheLook
+    .map(getProductById)
+    .filter((item): item is Product => Boolean(item));
+  const related = product.related
+    .map(getProductById)
+    .filter((item): item is Product => Boolean(item));
+  const hero = product.images[active] || product.images[0];
+  const saved = isSaved(product.id);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8">
@@ -37,7 +43,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="space-y-3">
           <button type="button" className="relative aspect-3/4 w-full overflow-hidden bg-muted" onClick={() => setZoom(true)}>
             <Image
-              src={product.images[active] ?? product.images[0]}
+              src={hero}
               alt={product.name[locale]}
               fill
               priority
@@ -147,7 +153,12 @@ export function ProductDetail({ product }: { product: Product }) {
                   setSizeError(true);
                   return;
                 }
-                addToCart({ productId: product.id, colorId: colorId ?? product.colors[0].id, size, quantity: 1 });
+                addToCart({
+                  productId: product.id,
+                  colorId: colorId ?? color?.id ?? product.colors[0]?.id ?? "",
+                  size,
+                  quantity: 1,
+                });
               }}
             >
               {t(locale, "addToBag")}
@@ -157,8 +168,8 @@ export function ProductDetail({ product }: { product: Product }) {
               className="min-h-11 rounded-sm"
               onClick={() => toggleSave(product.id)}
             >
-              <Heart className={cn("mr-2 size-4", isSaved(product.id) && "fill-primary")} />
-              {isSaved(product.id) ? t(locale, "saved") : t(locale, "save")}
+              <Heart className={cn("mr-2 size-4", saved && "fill-primary")} />
+              {saveLabel(locale, saved)}
             </Button>
           </div>
           {product.tags.includes("custom") ? (
@@ -172,7 +183,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <p className="mt-6 text-sm leading-7 text-muted-foreground">
             {t(locale, "deliverySummary")}
           </p>
-          <Accordion className="mt-6" multiple>
+          <Accordion className="mt-6" multiple={true}>
             <AccordionItem value="details">
               <AccordionTrigger>{t(locale, "details")}</AccordionTrigger>
               <AccordionContent>{product.details[locale]}</AccordionContent>
@@ -200,7 +211,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <h2 className="font-display text-3xl">{t(locale, "completeLook")}</h2>
           <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
             {look.map((item) => (
-              <ProductCard key={item!.id} product={item!} />
+              <ProductCard key={item.id} product={item} />
             ))}
           </div>
         </section>
@@ -210,7 +221,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <h2 className="font-display text-3xl">{t(locale, "alsoLike")}</h2>
           <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
             {related.map((item) => (
-              <ProductCard key={item!.id} product={item!} />
+              <ProductCard key={item.id} product={item} />
             ))}
           </div>
         </section>
@@ -220,7 +231,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <DialogContent className="max-w-3xl rounded-sm p-2">
           <div className="relative aspect-3/4 w-full">
             <Image
-              src={product.images[active] ?? product.images[0]}
+              src={hero}
               alt={product.name[locale]}
               fill
               className="object-contain"

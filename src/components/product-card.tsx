@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { formatMoney } from "@/lib/money";
-import { t } from "@/content/i18n";
+import { saveLabel } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import type { Product } from "@/content/catalog";
 import { cn } from "@/lib/utils";
@@ -63,7 +63,7 @@ export function ProductCard({ product }: { product: Product }) {
         <button
           type="button"
           className="mt-0.5 inline-flex size-11 shrink-0 items-center justify-center"
-          aria-label={saved ? t(locale, "saved") : t(locale, "save")}
+          aria-label={saveLabel(locale, saved)}
           onClick={() => toggleSave(product.id)}
         >
           <Heart

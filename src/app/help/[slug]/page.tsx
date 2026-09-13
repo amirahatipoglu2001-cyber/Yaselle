@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { OwnerMailLink } from "@/components/owner-mail-link";
-import { t } from "@/content/i18n";
+import { splitCopy, t } from "@/content/i18n";
 import { owner } from "@/content/profile";
 import { contactDraft, isValidEmail, openOwnerMail } from "@/lib/mail";
 import { useStore } from "@/lib/store";
@@ -135,7 +135,7 @@ function ContactForm() {
 }
 
 function HelpBody({ text }: { text: string }) {
-  const parts = text.split("{email}");
+  const parts = splitCopy(text, "email");
   if (parts.length === 1) return <>{text}</>;
   return (
     <>

@@ -560,6 +560,11 @@ export function getProductById(id: string) {
   return products.find((product) => product.id === id);
 }
 
+/** JSON-clone so RSC never ships `undefined` holes to the client. */
+export function toClientProduct(product: Product): Product {
+  return JSON.parse(JSON.stringify(product)) as Product;
+}
+
 export function categoryLabel(id: string, locale: Locale) {
   for (const category of categoryTree) {
     if (category.id === id) return category.label[locale];

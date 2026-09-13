@@ -222,6 +222,26 @@ export const copy = {
 
 export type CopyKey = keyof typeof copy;
 
+const TOKEN_LEAK = /\$[A-Z][A-Za-z]+/;
+
+for (const [key, phrase] of Object.entries(copy)) {
+  for (const text of Object.values(phrase)) {
+    if (TOKEN_LEAK.test(text)) {
+      throw new Error(`Copy "${key}" leaks a $Token placeholder`);
+    }
+  }
+}
+
 export function t(locale: Locale, key: CopyKey) {
-  return copy[key][locale];
+  const phrase = copy[key];
+  return phrase[locale] || phrase.en;
+}
+
+export function saveLabel(locale: Locale, saved: boolean) {
+  return t(locale, saved ? "saved" : "save");
+}
+
+/** Split `{token}` in copy. Never eval, never `$Token`. */
+export function splitCopy(text: string, token: string) {
+  return text.split(`{${token}}`);
 }
