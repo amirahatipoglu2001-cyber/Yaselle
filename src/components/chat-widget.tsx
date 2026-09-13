@@ -136,7 +136,7 @@ export function ChatWidget() {
 
   function writeToPerson() {
     const transcript = thread
-      .map((message) => `${message.from === "you" ? "You" : "Yaselle AI"}: ${message.text}`)
+      .map((message) => `${message.from === "you" ? "You" : "Yaselle"}: ${message.text}`)
       .join("\n");
     const draft = chatHandoffDraft(locale, transcript);
     openOwnerMail(draft.subject, draft.body);
