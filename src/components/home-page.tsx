@@ -4,17 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  isBestsellerOrSale,
-  isNewCollection,
-  products,
-  quickCategories,
-  type Product,
-} from "@/content/catalog";
+import { products, type Product } from "@/content/catalog";
 import { media } from "@/content/media";
 import { t } from "@/content/i18n";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+
+function isNewSeason(product: Product) {
+  return product.tags.includes("new") || product.collection === "new";
+}
+
+function isBestseller(product: Product) {
+  return product.tags.includes("bestseller");
+}
+
+function isDiscounted(product: Product) {
+  return product.tags.includes("sale") || Boolean(product.compareAtTry);
+}
 
 function ProductBand({
   title,
@@ -53,11 +59,15 @@ function ProductBand({
 export function HomePage() {
   const { locale } = useStore();
   const newest = products
-    .filter(isNewCollection)
+    .filter(isNewSeason)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .slice(0, 8);
   const bestsellers = products
-    .filter(isBestsellerOrSale)
+    .filter(isBestseller)
+    .sort((a, b) => b.soldCount - a.soldCount)
+    .slice(0, 8);
+  const discounted = products
+    .filter(isDiscounted)
     .sort((a, b) => b.soldCount - a.soldCount)
     .slice(0, 8);
 
@@ -99,7 +109,7 @@ export function HomePage() {
       </section>
 
       <ProductBand
-        title={t(locale, "homeNewCollection")}
+        title={t(locale, "homeNewSeason")}
         href="/shop/yeni-koleksiyon"
         linkLabel={t(locale, "viewAllNew")}
         items={newest}
@@ -108,24 +118,19 @@ export function HomePage() {
 
       <ProductBand
         title={t(locale, "homeBestsellers")}
-        href="/shop?sort=sale"
+        href="/shop?sort=bestseller"
         linkLabel={t(locale, "viewAllBestsellers")}
         items={bestsellers}
         empty={t(locale, "emptyHomeBand")}
       />
 
-      <section className="reveal px-5 py-10 sm:px-8">
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          {quickCategories.map((item) => (
-            <Link key={item.id} href={item.href} className="w-56 shrink-0 sm:w-auto sm:min-w-0 sm:flex-1">
-              <div className="relative aspect-3/4 overflow-hidden bg-muted">
-                <Image src={item.image} alt="" fill className="object-cover" sizes="(max-width: 640px) 224px, 33vw" />
-              </div>
-              <p className="mt-2 text-xs tracking-[0.08em] uppercase">{item.label[locale]}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <ProductBand
+        title={t(locale, "homeSale")}
+        href="/shop?sort=sale"
+        linkLabel={t(locale, "viewAllSale")}
+        items={discounted}
+        empty={t(locale, "emptyHomeBand")}
+      />
 
       <section className="reveal mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 sm:px-8 lg:grid-cols-2">
         <div className="relative aspect-4/3 overflow-hidden bg-muted">
