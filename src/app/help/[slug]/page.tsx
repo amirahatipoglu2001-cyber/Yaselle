@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { OwnerMailLink } from "@/components/owner-mail-link";
+import { SizeGuideTable } from "@/components/size-guide-table";
 import { loc } from "@/content/catalog";
 import { splitCopy, t } from "@/content/i18n";
+import { cn } from "@/lib/utils";
 import { owner } from "@/content/profile";
 import { site } from "@/content/site";
 import { contactDraft, isValidEmail, openOwnerMail } from "@/lib/mail";
@@ -20,8 +22,8 @@ const pages: Record<
   "size-guide": {
     title: { en: "Size guide", tr: "Beden tablosu" },
     body: {
-      en: "XS–XL follow a modest column. If you sit between sizes, take the larger for tunics and the smaller for jackets. Shoes run true. Custom fit is offered on tagged pieces.",
-      tr: "XS–XL ölçülü bir sütunu izler. Aradaysanız tunikte büyüğü, cekette küçüğü alın. Ayakkabı kalıbına sadık. İşaretli parçalarda özel kalıp vardır.",
+      en: "Body measurements are in centimetres. XS–XL follow a modest column. If you sit between sizes, take the larger for tunics and the smaller for jackets. Shoes run true. Custom fit is offered on tagged pieces.",
+      tr: "Vücut ölçüleri santimetredir. XS–XL ölçülü bir sütunu izler. Aradaysanız tunikte büyüğü, cekette küçüğü alın. Ayakkabı kalıbına sadık. İşaretli parçalarda özel kalıp vardır.",
     },
   },
   shipping: {
@@ -167,11 +169,17 @@ export default function HelpPage({
     );
   }
   return (
-    <main className="mx-auto max-w-2xl px-5 py-16">
+    <main
+      className={cn(
+        "mx-auto px-5 py-16",
+        slug === "size-guide" ? "max-w-5xl" : "max-w-2xl",
+      )}
+    >
       <h1 className="font-display text-4xl">{loc(page.title, locale)}</h1>
-      <p className="mt-6 text-base leading-8 text-muted-foreground">
+      <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground">
         <HelpBody text={loc(page.body, locale)} />
       </p>
+      {slug === "size-guide" ? <SizeGuideTable /> : null}
       {slug === "contact" ? (
         <>
           <p className="mt-4 text-sm">

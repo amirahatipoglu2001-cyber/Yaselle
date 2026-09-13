@@ -129,6 +129,7 @@ export const copy = {
   save: { en: "Save", tr: "Kaydet" },
   saved: { en: "Saved", tr: "Kayıtlı" },
   sizeGuide: { en: "Size guide", tr: "Beden tablosu" },
+  sizeGuideCm: { en: "Size chart (cm)", tr: "Beden tablosu CM" },
   chooseSize: { en: "Choose a size first.", tr: "Önce beden seçin." },
   lowStock: { en: "Only a few left in this size.", tr: "Bu bedende son parçalar." },
   outOfStock: { en: "This size is gone.", tr: "Bu beden tükendi." },

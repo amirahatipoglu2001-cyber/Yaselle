@@ -111,7 +111,6 @@ export const menuExtras = [
   { href: "/custom-order", label: { en: "Custom order", tr: "Özel Dikim Sipariş" } },
   { href: "/shop?sort=bestseller", label: { en: "Bestsellers", tr: "Bestseller" } },
   { href: "/shop?sort=sale", label: { en: "Campaigns & offers", tr: "Kampanya ve İndirimler" } },
-  { href: "/help/size-guide", label: { en: "Size guide", tr: "Beden Tablosu" } },
   { href: "/help/shipping", label: { en: "Shipping & delivery", tr: "Kargo & Teslimat" } },
   { href: "/help/payment", label: { en: "Payment", tr: "Ödeme" } },
   { href: "/help/contact", label: { en: "Contact", tr: "İletişim" } },

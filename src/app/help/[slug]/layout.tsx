@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const titles: Record<string, string> = {
-  "size-guide": "Size guide",
+  "size-guide": "Beden tablosu",
   shipping: "Shipping & delivery",
   payment: "Payment",
   returns: "Returns",

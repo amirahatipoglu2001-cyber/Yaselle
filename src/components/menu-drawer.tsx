@@ -76,7 +76,18 @@ export function MenuDrawer() {
           >
             {t(locale, "navHome")}
           </Link>
-          <p className="mt-2 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+          <p className="mt-6 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
+            {t(locale, "sizeGuide")}
+          </p>
+          <Link
+            href="/help/size-guide"
+            className="mt-2 flex min-h-11 items-center justify-between border-b border-border font-medium"
+            onClick={() => setPanel(null)}
+          >
+            {t(locale, "sizeGuideCm")}
+            <ChevronRight className="size-4 text-muted-foreground" />
+          </Link>
+          <p className="mt-6 text-[11px] tracking-[0.16em] uppercase text-muted-foreground">
             {t(locale, "categories")}
           </p>
           <ul className="mt-3 space-y-4">
