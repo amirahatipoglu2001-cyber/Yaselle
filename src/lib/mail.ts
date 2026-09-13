@@ -1,6 +1,7 @@
 import type { Locale } from "@/content/catalog";
 import { owner } from "@/content/profile";
 
+/** Local validation only — this studio does not send mail. */
 export function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 }
